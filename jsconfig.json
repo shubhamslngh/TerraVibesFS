@@ -1,0 +1,9 @@
+// jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": "./src/app",       // base directory of your project
+    "paths": {
+      "@/*": ["./*"]      // alias "@" to root directory
+    }
+  }
+}
