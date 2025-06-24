@@ -1,7 +1,6 @@
 // app/page.jsx
 import EventCard from "@/components/Events/EventCard";
 import { fetchPackages } from "@/lib/search";
-import DateRangeSelector from "@/components/DateRangeSelector";
 
 export default async function HomePage() {
   // Use the search util
