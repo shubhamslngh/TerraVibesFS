@@ -8,7 +8,7 @@ import MediaFlowGallery from "@/components/ui/MediaFlow";
 import { use } from "react";
 import { useRef, useEffect, useState } from "react";
 import { useScroll, useTransform } from "framer-motion";
-
+import Loader from "@/components/ui/loader";
 // Inside your component
 
 export default function PackageDetailsPage({ params }) {
@@ -68,7 +68,7 @@ export default function PackageDetailsPage({ params }) {
 
   if (!pkg) {
     return (
-      <div className="p-10 text-stone-600 dark:text-stone-300">Loading...</div>
+      <Loader/>
     );
   }
 

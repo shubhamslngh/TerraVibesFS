@@ -1,12 +1,13 @@
 "use client";
 
 import EventCard from "./EventCard";
+import Loader from "../ui/loader";
 
 export default function EventGrid({ packages = [], loading = false }) {
   if (loading) {
     return (
       <p className="text-center text-gray-500 font-cinzel">
-        Loading packages...
+        <Loader/>
       </p>
     );
   }
