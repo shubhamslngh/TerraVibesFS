@@ -74,7 +74,7 @@ const detailedEmotionsMap = {
       name: "Lonely",
       designation: "Connect With People",
       image:
-       "/moods/group.jpg",
+       "/moods/group.jpeg",
     },
   ],
   anxious: [
