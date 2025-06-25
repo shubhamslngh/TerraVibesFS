@@ -1,6 +1,8 @@
+"use client";
 import { getPackages } from "../services/api";
+
 import EventCard from "../components/Events/EventCard";
-import TextGenerateEffect from "@/components/ui/TextGenerateEffect";
+import { useEffect, useState } from "react";
 export default function Home() {
   const [packages, setPackages] = useState([]);
 
