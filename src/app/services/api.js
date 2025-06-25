@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create the axios instance
 const api = axios.create({
-    baseURL: "${process.env.NEXT_PUBLIC_API_URL}/api/",
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/`,
 });
 
 // Helper to set the auth token on all requests
