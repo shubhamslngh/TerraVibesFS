@@ -151,7 +151,7 @@ export default function EmotionWizard() {
 
         {/* Stage 1: Broad Mood Selection */}
         {stage === 1 && (
-          <div className="flex flex-nowrap xs:flex-wrap justify-center gap-6 md:gap-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
             {broadMoods.map((m, i) => (
               <div
                 key={m.id}
