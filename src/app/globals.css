@@ -44,7 +44,6 @@ html {
   --sidebar-ring: oklch(0.705 0.015 286.067);
 }
 .nav-scroll-bg {
-  background-image: url('/puneotw.jpeg');
   background-size: cover;
   background-position: top;
   transition: background-color 0.3s ease; transition: background-image 1s ease-in-out, background-color 1s ease-in-out, opacity 1s;
@@ -126,7 +125,7 @@ body {
   color: var(--foreground);
 
   /* This will fallback if Tailwind font classes are not used */
-  font-family: var(--font-cinzel), var(--font-monoton), var(--font-playfair);
+  font-family: var(--font-cinzel), serif;
   transition: background 0.3s ease, color 0.3s ease;
 }
 

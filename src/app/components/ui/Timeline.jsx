@@ -1,6 +1,6 @@
 "use client";
 
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useScroll, useTransform, motion, useInView } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
 export const Timeline = ({ data }) => {
@@ -45,42 +45,67 @@ const innerDotScale = useTransform(scrollYProgress, [0, 0.1, 1], [1, 1.25, 1]);
       </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
-        {data.map((item, index) => (
-          <div
-            key={index}
-            className="flex  flex-col md:flex-row justify-start pt-10 md:pt-40 md:gap-10 relative">
-            {/* Sticky Dot + Title (left column) */}
-            <div className="sticky z-40 top-40 self-start max-w-xs lg:max-w-sm md:w-full flex items-start">
-              <div className="relative p-7 ">
-                <motion.div
-                  style={{
-                    scale: dotScale,
-                    boxShadow: dotShadow,
-                    borderRadius: "50%",
-                    background:
-                      "radial-gradient(circle, #fff 70%, #6366f1 100%)",
-                  }}
-                  className="h-3 w-3 flex items-center justify-center border-2 border-neutral-300 dark:border-blue-900 bg-white dark:bg-black transition-all duration-300">
-                  <motion.div
-                    style={{ scale: innerDotScale }}
-                    className="h-1 w-1 rounded-full bg-neutral-200 dark:bg-blue-600"
-                  />
-                </motion.div>
-              </div>
-              <h3 className="hidden md:block text-xl md:pl-6 md:text-5xl font-bold text-neutral-900 dark:text-white">
-                {item.title}
-              </h3>
-            </div>
+        {data.map((item, index) => {
+          const itemRef = useRef(null);
+          const isInView = useInView(itemRef, {
+            once: true,
+            margin: "-30% 0px",
+          });
 
-            {/* Content (right column) */}
-            <div className="relative pl-16 pr-4 md:pl-4 w-full">
-              <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-900 dark:text-white">
-                {item.title}
-              </h3>
-              <div className="prose dark:prose-invert">{item.content}</div>
+          const dotScale = useTransform(
+            scrollYProgress,
+            [0, 1],
+            [1, isInView ? 1.6 : 1]
+          );
+          const innerDotScale = useTransform(
+            scrollYProgress,
+            [0, 1],
+            [1, isInView ? 1.25 : 1]
+          );
+          const dotShadow = isInView
+            ? "0 0 18px 8px #6366f1, 0 0 40px 16px #3b82f6"
+            : "0 0 0px 0px #7c3aed";
+
+          return (
+            <div
+              key={index}
+              ref={itemRef}
+              className="flex flex-col md:flex-row justify-start pt-10 md:pt-40 md:gap-10 relative">
+              {/* Dot + Title */}
+              <div className="sticky z-40 top-40 self-start max-w-xs lg:max-w-sm md:w-full flex items-start">
+                <div className="relative p-7 ">
+                  <motion.div
+                    style={{
+                      scale: isInView ? 1.6 : 1,
+                      boxShadow: dotShadow,
+                      borderRadius: "50%",
+                      background:
+                        "radial-gradient(circle, #fff 70%, #6366f1 100%)",
+                    }}
+                    className="h-3 w-3 flex items-center justify-center border-2 border-neutral-300 dark:border-blue-900 bg-white dark:bg-black transition-all duration-300">
+                    <motion.div
+                      style={{
+                        scale: isInView ? 1.25 : 1,
+                      }}
+                      className="h-1 w-1 rounded-full bg-neutral-200 dark:bg-blue-600"
+                    />
+                  </motion.div>
+                </div>
+                <h3 className="hidden md:block text-xl md:pl-6 md:text-5xl font-bold text-neutral-900 dark:text-white">
+                  {item.title}
+                </h3>
+              </div>
+
+              {/* Content */}
+              <div className="relative pl-16 pr-4 md:pl-4 w-full">
+                <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-900 dark:text-white">
+                  {item.title}
+                </h3>
+                <div className="prose dark:prose-invert">{item.content}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         {/* Animated Vertical Line */}
         <div

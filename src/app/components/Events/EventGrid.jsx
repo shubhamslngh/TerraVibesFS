@@ -6,9 +6,9 @@ import Loader from "../ui/loader";
 export default function EventGrid({ packages = [], loading = false }) {
   if (loading) {
     return (
-      <p className="text-center text-gray-500 font-cinzel">
+      <div className="text-center text-gray-500 font-cinzel">
         <Loader/>
-      </p>
+      </div>
     );
   }
 

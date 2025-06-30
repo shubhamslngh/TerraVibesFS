@@ -11,106 +11,103 @@ import Polaroid from "@/components/ui/poloroid";
 import Image from "next/image";
 import Map from "@/components/ui/map";
 // Step 1: Broad mood choices (hard-coded)
+// Broad moods
+// Broad moods (images unchanged)
 const broadMoods = [
   {
     id: "happy",
-    label: "Happy",
+    label: "Radiant",
     emoji: "😊",
-    image: "/moods/happy.png", // replace with real path
+    image: "/moods/happy.png",
   },
   {
     id: "sad",
-    label: "Sad",
+    label: "Reflective",
     emoji: "😢",
     image: "/moods/sad.png",
   },
   {
     id: "anxious",
-    label: "Anxious",
+    label: "Grounded",
     emoji: "😰",
     image: "/moods/anxious.jpg",
   },
   {
     id: "calm",
-    label: "Calm",
+    label: "Serene",
     emoji: "😌",
     image: "/moods/calm1.jpg",
   },
   {
     id: "tired",
-    label: "Tired",
+    label: "Renewed",
     emoji: "😴",
     image: "/moods/tired.jpg",
   },
-];
+]
 
-// Detailed emotions by broad mood
+// Detailed emotions by broad mood (images unchanged)
 const detailedEmotionsMap = {
   calm: [
     {
       id: 1,
-      name: "Calm",
-      designation: "Need peace",
+      name: "Stillness Seeker",
+      designation: "Embark on peaceful reflection",
       image: "/moods/m2.jpg",
     },
     {
       id: 4,
-      name: "Curious",
-      designation: "Open to explore",
-      image:
-        "/moods/explore.jpg",
+      name: "Explorer’s Heart",
+      designation: "Discover calm adventures",
+      image: "/moods/explore.jpg",
     },
   ],
   sad: [
     {
       id: 3,
-      name: "Heartbroken",
-      designation: "Emotionally drained",
-      image:
-       "/moods/explore2.jpg",
+      name: "Heart Healer",
+      designation: "Begin your healing journey",
+      image: "/moods/explore2.jpg",
     },
     {
       id: 6,
-      name: "Lonely",
-      designation: "Connect With People",
-      image:
-       "/moods/group.jpeg",
+      name: "Circle of Care",
+      designation: "Connect and uplift together",
+      image: "/moods/group.jpeg",
     },
   ],
   anxious: [
     {
       id: 2,
-      name: "Overwhelmed",
-      designation: "Too much going on",
-      image:
-       "/moods/toomuch.jpg",
+      name: "Grounding Guide",
+      designation: "Find your center and breathe",
+      image: "/moods/toomuch.jpg",
     },
   ],
   tired: [
     {
       id: 5,
-      name: "Burnt Out",
-      designation: "Need a break",
-      image:
-      "/moods/break.jpg",
+      name: "Energy Restorer",
+      designation: "Recharge body and mind",
+      image: "/moods/break.jpg",
     },
   ],
   happy: [
     {
       id: 7,
-      name: "Joyful",
-      designation: "Feeling elated",
+      name: "Joyful Voyager",
+      designation: "Celebrate every moment",
       image: "/moods/elated.jpg",
     },
     {
       id: 8,
-      name: "Playful",
-      designation: "Lighthearted fun",
-      image:
-       "/moods/lightfun.jpg",
+      name: "Playful Spirit",
+      designation: "Embrace lighthearted fun",
+      image: "/moods/lightfun.jpg",
     },
   ],
-};
+}
+
 
 export default function EmotionWizard() {
   const [stage, setStage] = useState(1);
@@ -162,7 +159,7 @@ export default function EmotionWizard() {
                 }}>
                 <Polaroid
                   src={m.image}
-                  caption={`${m.label} ${m.emoji}`}
+                  caption={`${m.label}  `}
                   rotate={i % 2 === 0 ? "left" : "right"}
                 />
               </div>

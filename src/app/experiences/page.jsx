@@ -19,10 +19,7 @@ export default function HomePage() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   const words = `Begin your healing with a journey...`;
-  useEffect(() => {
-    document.documentElement.classList.remove("dark");
-    console.log("HTML class:", document.documentElement.className);
-  }, []);
+
   return (
     <>
     

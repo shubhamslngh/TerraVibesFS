@@ -154,20 +154,21 @@ export default function PackageDetailsPage({ params }) {
       ),
     },
   ].filter(Boolean);
-    return (
-      <motion.div className="place-content-center relative w-full bg-white dark:bg-black text-stone-800 dark:text-stone-100">
-        <motion.div
-          style={{ scale, height }}
-          whileHover={{ scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className="z-10 p-2 overflow-hidden">
-          <MediaFlowGallery items={pkg.images} />
-        </motion.div>
-
-        <div className="px-4 sm:px-8 pt-8 pb-16">
-          <h1 className="text-4xl font-bold mb-6">Package Details</h1>
-          <Timeline data={timelineData} />
-        </div>
+  return (
+    <motion.div className="p-2 place-content-center relative  bg-white dark:bg-black text-stone-800 dark:text-stone-100">
+      <motion.div
+        style={{ scale, height }}
+        whileHover={{ scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="bg-gradient-to-br from-[#e0f2fe] to-[#fef9c3] 
+  dark:from-[#0000] dark:to-[#010d2b]  rounded-sm z-10 p-2 overflow-hidden">
+        <MediaFlowGallery items={pkg.images} />
       </motion.div>
-    );
+
+      <div className="px-4 sm:px-8 pt-8 pb-16">
+        <h1 className="text-4xl font-bold mb-6">Package Details</h1>
+        <Timeline data={timelineData} />
+      </div>
+    </motion.div>
+  );
 }

@@ -2,42 +2,56 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
+
 const MotionDiv = motion.div;
 const mediaUrl = `${process.env.NEXT_PUBLIC_API_URL}/media/`;
 
+// Utility to randomly pick a layout direction
+const getRandomLayout = () => {
+  const layouts = [
+    "flex-col-reverse",
+    "flex-row",
+    "flex-row-reverse",
+  ];
+  return layouts[Math.floor(Math.random() * layouts.length)];
+};
+
 export default function MediaFlowGallery({ items = [] }) {
-const galleryRef = useRef(null);
+  const galleryRef = useRef(null);
+
+  // ✅ Persist layout direction per item using useMemo
+  const layouts = useMemo(() => items.map(() => getRandomLayout()), [items]);
 
   if (!items.length) return null;
 
   return (
-    <div
-      ref={galleryRef}
-      className="w-full transparent-scrollbar overflow-x-auto py-12 rounded-xl mb-10
-  bg-gradient-to-br from-[#e0f2fe] to-[#fef9c3] 
-  dark:from-[#475976] dark:to-[#010d2b]">
-      <div className="flex gap-10 w-max px-6">
-        {items.map((item, index) => {
-          const src = `${mediaUrl}${item.mediaFile}`;
-          const description = item.body || "Experience.";
-          const title = item.title || " Journey";
-          return (
-            <MotionDiv
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: index * 0.1,
-                duration: 0.6,
-                ease: "easeOut",
-              }}
-              className="rounded-lg p-4 h-auto flex flex-col md:flex-row items-center justify-center max-h-[300px] min-w-[320px] md:min-w-[600px] max-w-[90vw]">
-              {/* Media + description container */}
-              <div
-                className={`flex flex-col md:flex-row gap-4 items-center justify-center w-full`}>
+ 
+      <div
+        ref={galleryRef}
+        className="w-full overflow-x-auto py-12 rounded-xl mb-10 bg-transparent">
+        <div className="flex gap-12 w-max px-6">
+          {items.map((item, index) => {
+            const src = `${mediaUrl}${item.mediaFile}`;
+            const description = item.body || "Experience.";
+            const title = item.title || "Journey";
+            const layout = layouts[index];
+
+            return (
+              <MotionDiv
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.1,
+                  duration: 0.6,
+                  ease: "easeOut",
+                }}
+                className={`rounded-xl flex ${layout} items-center justify-center
+                          min-w-[80vw] md:min-w-[600px]   lg:min-w-[800px] max-w-[95vw]
+                          transition-all duration-500 gap-4`}>
                 {/* Media */}
-                <div className="w-full md:w-[400px] max-h-90 overflow-hidden rounded-lg group relative">
+                <div className="w-full max-w-full overflow-visible rounded-lg group relative ">
                   {item.type === "video" ? (
                     <video
                       src={src}
@@ -45,32 +59,29 @@ const galleryRef = useRef(null);
                       loop
                       muted
                       playsInline
-                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105 rounded-lg"
+                      className="object-contain w-full h-[200px] md:h-[400px] lg:h-[500px] transition-transform duration-500 group-hover:scale-105 rounded-lg"
                     />
                   ) : (
                     <Image
                       src={src}
                       alt={description}
-                      width={800}
-                      style={{
-                        objectFit: "contain",
-                      }}
-                      height={400}
-                      className=" bg-center w-full h-auto transition-transform duration-500 group-hover:scale-105 rounded-lg"
+                      width={1000}
+                      height={600}
+                      className="object-contain w-full h-[200px] md:h-[400px] lg:h-[500px]   max-h-fit transition-transform duration-500 group-hover:scale-105 rounded-lg"
                     />
                   )}
                 </div>
 
-                {/* Description */}
-                <div className="dark:text-white text-black text-md w-full md:w-1/2 max-w-md px-2 text-left leading-relaxed">
-                  <h3 className="text-lg font-semibold mb-2">{title}</h3>
-                  <p className="text-sm dark:text-indigo-300">{description}</p>
+                {/* Description - always visible and spaced properly */}
+                <div className="dark:text-white text-black font-[monoton] text-left px-2 py-4 w-full max-w-xl min-h-[100px] overflow-visible z-10">
+                  <h3 className="text-xl font-bold mb-2">{title}</h3>
+                  <p className="text-md dark:text-indigo-300">{description}</p>
                 </div>
-              </div>
-            </MotionDiv>
-          );
-        })}
+              </MotionDiv>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    
   );
 }
