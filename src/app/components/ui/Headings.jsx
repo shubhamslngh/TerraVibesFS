@@ -14,7 +14,7 @@ export function ColourfulText({
      "rgb(168, 109, 74)", // Dog’s reddish fur
      "rgb(202, 173, 122)", // Sunlight reflection on skin/rock
      "rgb(110, 104, 93)", // Wood and earthy contrast
-     "rgb(20, 24, 32)", // Deep natural shadow
+     "rgb(20, 94, 32)", // Deep natural shadow
    ];
 
 

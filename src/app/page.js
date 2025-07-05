@@ -7,6 +7,8 @@ import EmotionPage from "./components/emotions";
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import HeroSection from "@/components/HeroSection";
+import GuideSelector from "./components/GuideSelector";
+import Guides from "@/components/ui/GuidesCards";
 export default function HomePage() {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,6 +33,8 @@ export default function HomePage() {
           <div className="max-w-6xl  center mx-auto py-20 px-4">
             
             <EmotionPage />
+            <GuideSelector />
+            <Guides />
           </div>
           
         </section>

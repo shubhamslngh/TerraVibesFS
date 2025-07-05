@@ -16,97 +16,191 @@ import Map from "@/components/ui/map";
 const broadMoods = [
   {
     id: "happy",
-    label: "Radiant",
-    emoji: "😊",
+    label: "Main Character",
+    emoji: "🎬",
     image: "/moods/happy.png",
   },
   {
     id: "sad",
-    label: "Reflective",
+    label: "In My Feels",
     emoji: "😢",
     image: "/moods/sad.png",
   },
   {
     id: "anxious",
-    label: "Grounded",
-    emoji: "😰",
+    label: "Overthinking",
+    emoji: "😵‍💫",
     image: "/moods/anxious.jpg",
   },
   {
     id: "calm",
-    label: "Serene",
-    emoji: "😌",
+    label: "Healing Era",
+    emoji: "🌸",
     image: "/moods/calm1.jpg",
   },
   {
     id: "tired",
-    label: "Renewed",
-    emoji: "😴",
+    label: "Sleep Is Life",
+    emoji: "💤",
     image: "/moods/tired.jpg",
   },
-]
+];
 
-// Detailed emotions by broad mood (images unchanged)
+// Detailed emotions by broad mood
 const detailedEmotionsMap = {
   calm: [
     {
       id: 1,
-      name: "Stillness Seeker",
-      designation: "Embark on peaceful reflection",
+      name: "Calm",
+      designation: "Need peace",
       image: "/moods/m2.jpg",
     },
     {
       id: 4,
-      name: "Explorer’s Heart",
-      designation: "Discover calm adventures",
+      name: "Curious",
+      designation: "Open to explore",
       image: "/moods/explore.jpg",
     },
   ],
   sad: [
     {
       id: 3,
-      name: "Heart Healer",
-      designation: "Begin your healing journey",
+      name: "Heartbroken",
+      designation: "Emotionally drained",
       image: "/moods/explore2.jpg",
     },
     {
       id: 6,
-      name: "Circle of Care",
-      designation: "Connect and uplift together",
+      name: "Lonely",
+      designation: "Connect With People",
       image: "/moods/group.jpeg",
     },
   ],
   anxious: [
     {
       id: 2,
-      name: "Grounding Guide",
-      designation: "Find your center and breathe",
+      name: "Overwhelmed",
+      designation: "Too much going on",
       image: "/moods/toomuch.jpg",
     },
   ],
   tired: [
     {
       id: 5,
-      name: "Energy Restorer",
-      designation: "Recharge body and mind",
+      name: "Burnt Out",
+      designation: "Need a break",
       image: "/moods/break.jpg",
     },
   ],
   happy: [
     {
       id: 7,
-      name: "Joyful Voyager",
-      designation: "Celebrate every moment",
+      name: "Joyful",
+      designation: "Feeling elated",
       image: "/moods/elated.jpg",
     },
     {
       id: 8,
-      name: "Playful Spirit",
-      designation: "Embrace lighthearted fun",
+      name: "Playful",
+      designation: "Lighthearted fun",
       image: "/moods/lightfun.jpg",
     },
   ],
-}
+};
+// const broadMoods = [
+//   {
+//     id: "happy",
+//     label: "Radiant",
+//     emoji: "😊",
+//     image: "/moods/happy.png",
+//   },
+//   {
+//     id: "sad",
+//     label: "Reflective",
+//     emoji: "😢",
+//     image: "/moods/sad.png",
+//   },
+//   {
+//     id: "anxious",
+//     label: "Grounded",
+//     emoji: "😰",
+//     image: "/moods/anxious.jpg",
+//   },
+//   {
+//     id: "calm",
+//     label: "Serene",
+//     emoji: "😌",
+//     image: "/moods/calm1.jpg",
+//   },
+//   {
+//     id: "tired",
+//     label: "Renewed",
+//     emoji: "😴",
+//     image: "/moods/tired.jpg",
+//   },
+// ]
+
+// // Detailed emotions by broad mood (images unchanged)
+// const detailedEmotionsMap = {
+//   calm: [
+//     {
+//       id: 1,
+//       name: "Stillness Seeker",
+//       designation: "Embark on peaceful reflection",
+//       image: "/moods/m2.jpg",
+//     },
+//     {
+//       id: 4,
+//       name: "Explorer’s Heart",
+//       designation: "Discover calm adventures",
+//       image: "/moods/explore.jpg",
+//     },
+//   ],
+//   sad: [
+//     {
+//       id: 3,
+//       name: "Heart Healer",
+//       designation: "Begin your healing journey",
+//       image: "/moods/explore2.jpg",
+//     },
+//     {
+//       id: 6,
+//       name: "Circle of Care",
+//       designation: "Connect and uplift together",
+//       image: "/moods/group.jpeg",
+//     },
+//   ],
+//   anxious: [
+//     {
+//       id: 2,
+//       name: "Grounding Guide",
+//       designation: "Find your center and breathe",
+//       image: "/moods/toomuch.jpg",
+//     },
+//   ],
+//   tired: [
+//     {
+//       id: 5,
+//       name: "Energy Restorer",
+//       designation: "Recharge body and mind",
+//       image: "/moods/break.jpg",
+//     },
+//   ],
+//   happy: [
+//     {
+//       id: 7,
+//       name: "Joyful Voyager",
+//       designation: "Celebrate every moment",
+//       image: "/moods/elated.jpg",
+//     },
+//     {
+//       id: 8,
+//       name: "Playful Spirit",
+//       designation: "Embrace lighthearted fun",
+//       image: "/moods/lightfun.jpg",
+//     },
+//   ],
+// }
 
 
 export default function EmotionWizard() {
@@ -143,7 +237,7 @@ export default function EmotionWizard() {
       className="w-full px-4 py-16 sm:py-24 md:py-2   transition-all">
       <div className="max-w-8xl mx-auto flex flex-col items-center gap-10 text-center dark:text-white text-black px-4">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-light">
-          Choose your <Headings text="Mood" />?
+          Pick the <Headings text="Mood" /> that guides your next adventure
         </h1>
 
         {/* Stage 1: Broad Mood Selection */}
@@ -178,14 +272,14 @@ export default function EmotionWizard() {
               items={detailedEmotionsMap[broadMood]}
               onSelect={handleEmotionSelect}
             />
-            <button
+            {/* <button
               onClick={() => {
                 setStage(1);
                 setBroadMood(null);
               }}
               className="mt-4 text-sm text-red-600 hover:underline">
               ← Go Back
-            </button>
+            </button> */}
           </>
         )}
 
@@ -198,6 +292,21 @@ export default function EmotionWizard() {
           />
         )}
       </div>
+      {stage > 1 && (
+        <button
+          onClick={() => {
+            if (selectedEmotion) {
+              setSelectedEmotion(null); // back to stage 2
+            } else {
+              setBroadMood(null);
+              setStage(1); // back to stage 1
+            }
+          }}
+          className="mb-6 text-sm text-red-600 hover:underline flex items-center gap-1 self-start">
+          <span aria-hidden>←</span>
+          Go Back
+        </button>
+      )}
     </motion.div>
   );
 }

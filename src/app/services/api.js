@@ -19,6 +19,7 @@ export const getPackages = () => api.get("packages/");
 export const submitInquiry = (data) => api.post("inquiries/", data);
 export const submitBooking = (data) => api.post("bookings/", data);
 export const getBookings = () => api.get("bookings/");
+export const getGuides = () => api.get("guides/");
 // New auth endpoints
 export const registerUser = (data) =>
     api.post("auth/register/", data);

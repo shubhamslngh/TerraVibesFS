@@ -17,8 +17,7 @@ export default function HeroSection() {
   const words = `Begin your healing with a journey...`;
 
   return (
-    <section  className="relative w-full h-[80vh]  mask-t-from-60% bg-[url('/puneotw.jpeg')] bg-cover bg-center rounded-2xl flex flex-col place-self-center items-center justify-center">
-
+    <section className="relative w-full h-[80vh]  mask-t-from-60% dark:bg-[url('/footerimg.jpg')] bg-[url('/puneotw.jpeg')] bg-cover bg-center rounded-2xl flex flex-col place-self-center items-center justify-center">
       <motion.div
         initial={{ scale: 2 }}
         animate={{ scale: 1 }}
@@ -39,12 +38,12 @@ export default function HeroSection() {
         <motion.h1 className="text-slate-900 text-6xl md:text-7xl font-cinzel font-bold tracking-wide">
           TERRAVIBES
         </motion.h1>
-      <TextGenerateEffect
-        className="mt-6 text-xl md:text-2xl italic font-playfair text-gray-200"
-        duration={2}
-        filter={false}
-        words={words}
-      />
+        <TextGenerateEffect
+          className="mt-6 text-xl md:text-2xl italic font-playfair text-gray-200"
+          duration={2}
+          filter={false}
+          words={words}
+        />
       </motion.div>
     </section>
   );

@@ -24,8 +24,8 @@ const base = `${process.env.NEXT_PUBLIC_API_URL}/media`;
 
   const imagePaths =
     pkg.images?.map((img) =>
-      img.mediaFile.startsWith("http")
-        ? img.mediaFile
+      img.media_file
+        ? img.media_file
         : `${base}/${img.mediaFile.replace(/^\/+/, "")}`
     ) || [];
 
@@ -34,9 +34,15 @@ const base = `${process.env.NEXT_PUBLIC_API_URL}/media`;
 
   return (
     <Link href={`/packages/${pkg.id}`}>
-      <div className="relative group rounded-xl p-8 bg-white shadow-lg transition-all max-w-100 duration-300 hover:-translate-y-1 hover:rotate-[0.5deg] hover:shadow-2xl">
+      <div
+        className="relative group rounded-xl p-8 
+  bg-gradient-to-br from-white via-neutral-100 to-neutral-200 
+  dark:from-[#1f1c2c] dark:via-[#2d2d2d] dark:to-black 
+  shadow-lg transition-all max-w-100 duration-300 
+  hover:-translate-y-1 hover:rotate-[0.5deg] 
+  hover:shadow-2xl dark:hover:shadow-[0_15px_50px_rgba(255,215,0,0.1)]">
         {/* Simulated Lift Shadow */}
-        <div className="absolute -bottom-2 right-2 w-1/4 h-full bg-red-100 z-0 transform rotate-[20deg] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-0 group-hover:-bottom-4 group-hover:bg-transparent shadow-[0_15px_10px_rgba(0,11,0,0.2)] pointer-events-none" />
+        <div className="absolute -bottom-2 right-2 w-1/4 h-full dark:bg-amber-100 dark:opacity-35 bg-red-100 z-0 transform rotate-[20deg] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-0 group-hover:-bottom-4 group-hover:bg-transparent shadow-[0_15px_10px_rgba(0,11,0,0.2)] pointer-events-none" />
 
         {/* Image container */}
         <div className="relative w-full h-40 rounded-md overflow-hidden mb-4 shadow-md">
@@ -55,25 +61,13 @@ const base = `${process.env.NEXT_PUBLIC_API_URL}/media`;
           <div className="absolute inset-0 bg-black/20 z-10" />
         </div>
 
-        {/* Content */}
-        <div className="relative z-20 text-amber-300">
-          <h2 className="text-lg font-semibold line-clamp-2 mb-2">
+        <div className="relative z-20 text-gray-800 dark:text-amber-200">
+          <h2 className="text-lg font-semibold line-clamp-2 mb-2 drop-shadow-sm dark:text-amber-300">
             {pkg.title}
           </h2>
-          <p className="text-sm text-gray-600 line-clamp-3">
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
             {shortDescription}
           </p>
-          {/* {services.length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-3">
-                {services.map((service, idx) => (
-                  <span
-                    key={idx}
-                    className="text-xs bg-neutral-200 px-3 py-1 rounded-full font-medium text-black shadow-sm">
-                    {service.name}
-                  </span>
-                ))}
-              </div>
-            )}  */}
         </div>
       </div>
     </Link>

@@ -1,43 +1,23 @@
+// components/Guides.jsx
 "use client";
 
 import {
-  FaCodepen,
   FaInstagram,
-  FaDribbble,
-  FaTwitter,
-  FaFacebook,
+
 } from "react-icons/fa";
 
-const guides = [
-  {
-    name: "Al Pacino",
-    className: "card0",
-    image:
-      "https://i.pinimg.com/736x/8f/a0/51/8fa051251f5ac2d0b756027089fbffde--terry-o-neill-al-pacino.jpg",
-  },
-  {
-    name: "Ben Stiller",
-    className: "card1",
-    image:
-      "https://i.pinimg.com/originals/28/d2/e6/28d2e684e7859a0dd17fbd0cea00f8a9.jpg",
-  },
-  {
-    name: "Patrick Stewart",
-    className: "card2",
-    image:
-      "https://i.pinimg.com/originals/ee/85/08/ee850842e68cfcf6e3943c048f45c6d1.jpg",
-  },
-];
-
-export default function Guides() {
+export default function Guides({ guides = [], onSelect, selectedGuideId }) {
   return (
-    <div className="w-screen h-screen max-w-[1280px] max-h-[800px] min-w-[1000px] min-h-[600px] mx-auto flex justify-around items-center">
+    <div className="w-full flex flex-wrap justify-center gap-6">
       {guides.map((guide, idx) => (
         <div
-          key={idx}
-          className={`relative h-[379px] w-[300px] bg-black rounded-[10px] overflow-hidden shadow-[0_70px_63px_-60px_rgba(0,0,0,1)] transition-all duration-500 group`}
+          key={guide.id || idx}
+          onClick={() => onSelect?.(guide.id)}
+          className={`relative h-[379px] w-[300px] bg-black rounded-[10px] overflow-hidden shadow-[0_70px_63px_-60px_rgba(0,0,0,1)] transition-all duration-500 group cursor-pointer ${
+            selectedGuideId === guide.id ? "ring-4 ring-violet-400" : ""
+          }`}
           style={{
-            backgroundImage: `url(${guide.image})`,
+            backgroundImage: `url(${guide.photo || guide.image})`,
             backgroundSize: "300px",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center",
@@ -47,18 +27,16 @@ export default function Guides() {
               {guide.name}
             </h2>
             <div className="absolute top-[226px] left-1/2 -translate-x-1/2 text-white h-[130px] w-[50px] flex flex-col justify-around items-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-              <FaCodepen />
               <FaInstagram />
-              <FaDribbble />
-              <FaTwitter />
-              <FaFacebook />
+              {guide.expertise}
             </div>
           </div>
+
           {/* Expand image on hover */}
           <div
             className="absolute inset-0 transition-all duration-700 group-hover:bg-left"
             style={{
-              backgroundImage: `url(${guide.image})`,
+              backgroundImage: `url(${guide.photo || guide.image})`,
               backgroundSize: "600px",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "left center",
