@@ -7,6 +7,10 @@ export const Timeline = ({ data }) => {
   const ref = useRef(null);
   const containerRef = useRef(null);
   const [height, setHeight] = useState(0);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
   useEffect(() => {
     if (ref.current) {
@@ -14,30 +18,24 @@ export const Timeline = ({ data }) => {
       setHeight(rect.height);
     }
   }, [ref]);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 10%", "end 100%"],
-  });
-const innerDotScale = useTransform(scrollYProgress, [0, 0.1, 1], [1, 1.25, 1]);
+  const [timelineHeight, setTimelineHeight] = useState(0);
+  useEffect(() => {
+    if (containerRef.current) {
+      setTimelineHeight(containerRef.current.getBoundingClientRect().height);
+    }
+  }, []);
+  const animatedLineHeight = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, timelineHeight]
+  );
 
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
-  const dotScale = useTransform(scrollYProgress, [0, 0.15, 1], [1, 1.6, 0.95]);
-  const dotShadow = useTransform(
-    scrollYProgress,
-    [0, 0.15, 1],
-    [
-      "0 0 0px 0px #7c3aed",
-      "0 0 18px 8px #6366f1, 0 0 40px 16px #3b82f6",
-      "0 0 0px 0px #7c3aed",
-    ]
-  );
-
   return (
     <div
       ref={containerRef}
-      className="w-full font-sans bg-white dark:bg-black text-stone-800 dark:text-stone-100 md:px-10">
+      className="w-full font-sans relative  dark:bg-black text-stone-800 dark:text-stone-100 md:px-10">
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
         <h2 className="text-lg md:text-4xl mb-4 font-bold max-w-4xl text-black dark:text-white">
           Don’t let your mood decide your day.
@@ -47,25 +45,32 @@ const innerDotScale = useTransform(scrollYProgress, [0, 0.1, 1], [1, 1.25, 1]);
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {data.map((item, index) => {
           const itemRef = useRef(null);
-          const isInView = useInView(itemRef, {
-            once: true,
-            margin: "-30% 0px",
-          });
+          const [dotReached, setDotReached] = useState(false);
 
-          const dotScale = useTransform(
-            scrollYProgress,
-            [0, 1],
-            [1, isInView ? 1.6 : 1]
-          );
-          const innerDotScale = useTransform(
-            scrollYProgress,
-            [0, 1],
-            [1, isInView ? 1.25 : 1]
-          );
-          const dotShadow = isInView
-            ? "0 0 18px 8px #6366f1, 0 0 40px 16px #3b82f6"
-            : "0 0 0px 0px #7c3aed";
+          // Compare each dot's offsetTop to line height
+          useEffect(() => {
+            const unsubscribe = animatedLineHeight.on(
+              "change",
+              (lineHeight) => {
+                if (itemRef.current && containerRef.current) {
+                  const dotY =
+                    itemRef.current.getBoundingClientRect().top -
+                    containerRef.current.getBoundingClientRect().top;
 
+                  // Optional debug
+                  // console.log("lineHeight:", lineHeight, "dotY:", dotY);
+
+                  if (lineHeight >= dotY) {
+                    setDotReached(true);
+                  } else {
+                    setDotReached(false);
+                  }
+                }
+              }
+            );
+
+            return () => unsubscribe();
+          }, [animatedLineHeight]);
           return (
             <div
               key={index}
@@ -75,18 +80,18 @@ const innerDotScale = useTransform(scrollYProgress, [0, 0.1, 1], [1, 1.25, 1]);
               <div className="sticky z-40 top-40 self-start max-w-xs lg:max-w-sm md:w-full flex items-start">
                 <div className="relative p-7 ">
                   <motion.div
+                    ref={itemRef}
                     style={{
-                      scale: isInView ? 1.6 : 1,
-                      boxShadow: dotShadow,
-                      borderRadius: "50%",
-                      background:
-                        "radial-gradient(circle, #fff 70%, #6366f1 100%)",
+                      scale: dotReached ? 1.6 : 1,
+                      boxShadow: dotReached
+                        ? "0 0 18px 8px #6366f1, 0 0 40px 16px #3b82f6"
+                        : "0 0 0px 0px #7c3aed",
                     }}
-                    className="h-3 w-3 flex items-center justify-center border-2 border-neutral-300 dark:border-blue-900 bg-white dark:bg-black transition-all duration-300">
+                    transition={{ duration: 0.4 }}
+                    className="h-3 w-3 flex items-center justify-center border-2 border-neutral-300 dark:border-blue-900 bg-white dark:bg-black rounded-full">
                     <motion.div
-                      style={{
-                        scale: isInView ? 1.25 : 1,
-                      }}
+                      style={{ scale: dotReached ? 1.25 : 1 }}
+                      transition={{ duration: 0.4 }}
                       className="h-1 w-1 rounded-full bg-neutral-200 dark:bg-blue-600"
                     />
                   </motion.div>

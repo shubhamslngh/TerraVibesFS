@@ -3,6 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 html {
+  position: relative; 
   transition: background-color 0.3s, color 0.3s;
 }
 :root {
@@ -111,8 +112,10 @@ html {
 /* globals.css or your main stylesheet */
 body {
   transition: background 1s ease;
+  
   background: white; /* default */
 }
+
 
 body.cloudy-bg {
   background: url('/cloudy-bg.') no-repeat center center fixed;

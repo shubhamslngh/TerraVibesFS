@@ -30,7 +30,7 @@ export default function HomePage() {
         <div className="grid place-items-center gap-16 py-20">
         <HeroSection />
         <section className="bg-center dark:bg-[url(/stars.jpg)] bg-contain  font-sans w-full">
-          <div className="max-w-6xl  center mx-auto py-20 px-4">
+          <div className="w-100vw center mx-auto py-20 px-4">
             
             <EmotionPage />
             <GuideSelector />

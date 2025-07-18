@@ -7,7 +7,8 @@ import { Timeline } from "@/components/ui/Timeline";
 import MediaFlowGallery from "@/components/ui/MediaFlow";
 import { use } from "react";
 import { useRef, useEffect, useState } from "react";
-import { useScroll, useTransform } from "framer-motion";
+import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+
 import Loader from "@/components/ui/loader";
 // Inside your component
 
@@ -20,9 +21,27 @@ export default function PackageDetailsPage({ params }) {
   const mediaUrl = `${process.env.NEXT_PUBLIC_API_URL}/media/`;
   const galleryRef = useRef(null);
 
- const { scrollY } = useScroll();
-  const scale = useTransform(scrollY, [0, 300], [1, 0.75]);
-  const height = useTransform(scrollY, [0, 300], [500, 300]);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const calcHeight = () => {
+    const start = 0;
+    const end = 500;
+    const minHeight = 300;
+    const maxHeight = window.innerHeight;
+    const scrollProgress = Math.min(scrollY / end, 1);
+    const interpolatedHeight =
+      maxHeight - (maxHeight - minHeight) * scrollProgress;
+    return `${interpolatedHeight}px`;
+  };
 
   useEffect(() => {
     async function fetchPackage() {
@@ -84,7 +103,7 @@ export default function PackageDetailsPage({ params }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.4 }}>
-          <h1 className="text-3xl font-bold text-stone-700 dark:text-stone-100 mb-2">
+          <h1 className=" text-3xl font-bold text-stone-700 dark:text-stone-100 mb-2">
             {pkg.title}
           </h1>
           <p className="text-lg text-red-600 font-semibold">
@@ -155,16 +174,14 @@ export default function PackageDetailsPage({ params }) {
     },
   ].filter(Boolean);
   return (
-    <motion.div className="p-2 place-content-center relative  bg-white dark:bg-black text-stone-800 dark:text-stone-100">
+    <motion.div className=" p-2 place-content-center relative  bg-white dark:bg-black text-stone-800 dark:text-stone-100">
       <motion.div
-        style={{ scale, height }}
-        whileHover={{ scale: 1 }}
-        transition={{ duration: 0.3 }}
-        className="bg-gradient-to-br from-[#e0f2fe] to-[#fef9c3] 
-  dark:from-[#0000] dark:to-[#010d2b]  rounded-sm z-10 p-2 overflow-hidden">
+        style={{ height: calcHeight() }}
+        transition={{ duration: 0.4 }}
+        className="w-full bg-gradient-to-br from-[#e0f2fe] to-[#fef9c3] 
+    dark:from-transparent dark:to-[#010d2b] rounded-sm z-10 overflow-hidden">
         <MediaFlowGallery items={pkg.images} />
       </motion.div>
-
       <div className="px-4 sm:px-8 pt-8 pb-16">
         <h1 className="text-4xl font-bold mb-6">Package Details</h1>
         <Timeline data={timelineData} />

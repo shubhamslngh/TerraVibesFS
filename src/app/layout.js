@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cinzel.variable} ${monoton.variable} ${playfair.variable}`}>
-      <body>
+      <body className="relative will-change-scroll">
         <Providers>
           <ThemeInitializer /> {/* ⬅️ This handles the dark mode */}
           <Navbar />

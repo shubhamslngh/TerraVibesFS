@@ -34,10 +34,14 @@ useEffect(() => {
 
   return (
     <div className="px-4 py-12">
-      <h1 className="text-2xl font-semibold text-center mb-8">
-        Find Your Tripper
+      <h1 className="text-3xl md:text-5xl font-extrabold text-center text-gray-800 dark:text-white mb-4">
+        Find Your{" "}
+        <span className="text-indigo-600 dark:text-indigo-400">Tripper</span>
       </h1>
-
+      <p className="text-center text-gray-500 dark:text-gray-300 max-w-xl mx-auto mb-10">
+        Select a guide below to discover handpicked experiences crafted just for
+        you.
+      </p>
       {/* Dynamic Guide Cards */}
       <Guides
         guides={guides}
@@ -49,13 +53,21 @@ useEffect(() => {
       <div className="flex justify-center mt-6">
         <button
           onClick={() => setSelectedGuideId(null)}
-          className="px-4 py-2 rounded-md dark:bg-white dark:text-black hover:bg-gray-200 text-sm">
-          Show All Guides
+          className="flex items-center gap-2 px-5 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm shadow transition">
+          <span>Show All Guides</span>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24">
+            <path d="M5 13l4 4L19 7" />
+          </svg>
         </button>
       </div>
 
       {/* Filtered Packages */}
-      <div className="mt-12">
+      <div className="mt-12 justify-center">
         {selectedGuideId != null && (
           <p className="mb-4 text-center text-lg">
             Experiences with{" "}
@@ -65,7 +77,6 @@ useEffect(() => {
           </p>
         )}
 
-        {/* EventGrid rendering related packages */}
         <EventGrid packages={filtered} />
       </div>
     </div>

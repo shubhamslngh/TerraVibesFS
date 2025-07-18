@@ -234,8 +234,8 @@ export default function EmotionWizard() {
   return (
     <motion.div
       ref={ref}
-      className="w-full px-4 py-16 sm:py-24 md:py-2   transition-all">
-      <div className="max-w-8xl mx-auto flex flex-col items-center gap-10 text-center dark:text-white text-black px-4">
+      className="px-4 py-16 sm:py-24 md:py-2 transition-all">
+      <div className="max-w-6xl mx-auto flex flex-col items-center gap-10 text-center dark:text-white text-black px-4">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-light">
           Pick the <Headings text="Mood" /> that guides your next adventure
         </h1>

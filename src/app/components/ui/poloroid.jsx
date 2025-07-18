@@ -9,7 +9,7 @@ export default function Polaroid({
   alt = "Polaroid photo",
   caption,
   rotate = "none", // "left", "right", "none"
-  size = "w-60", // Tailwind width class
+  size = "", // Override if needed
 }) {
   const rotationClass = {
     left: "-rotate-6",
@@ -22,28 +22,21 @@ export default function Polaroid({
       whileHover={{ scale: 1.05, rotate: 0 }}
       transition={{ type: "spring", stiffness: 200, damping: 15 }}
       className={clsx(
-        // Paper background changes in dark mode
-        "rounded-lg shadow-xl p-2 pb-6",
-        "border",
-        "bg-stone-100 border-white", // Light
-        "dark:bg-gradient-to-br dark:from-[#212733] dark:to-[#292c36] dark:border-none dark:shadow-blue-900/40", // Dark
+        "hover:shadow-red-200  shadow-xl p-2 pb-6",
+        "bg-stone-100",
+        "rounded dark:shadow-teal-700 dark:bg-black dark:inset-shadow-lg dark:inset-shadow-indigo-500   hover:dark:shadow-white",
         "flex flex-col items-center",
-        size,
-        rotationClass
-      )}
-      style={{
-        boxShadow: "0 8px 32px 0 rgba(34,34,60,0.07)",
-        // Optional: subtle colored glow in dark mode
-        filter:
-          "var(--tw-shadow-colored) drop-shadow(0 6px 32px rgba(40,70,180,0.15))",
-      }}>
-      <div className="aspect-[4/5] relative w-full rounded overflow-hidden shadow-md">
+        "w-full max-w-[90vw] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[600px]",
+        rotationClass,
+        size
+      )}>
+      <div className="aspect-[4/5] relative w-full rounded-md overflow-hidden border border-gray-300 dark:border-stone-900">
         <Image
           src={src}
           alt={alt}
           fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 300px"
+          className="object-cover rounded"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
         />
       </div>
       {caption && (

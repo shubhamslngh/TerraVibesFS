@@ -29,7 +29,7 @@ export default function MediaFlowGallery({ items = [] }) {
  
       <div
         ref={galleryRef}
-        className="w-full overflow-x-auto py-12 rounded-xl mb-10 bg-transparent">
+        className="w-full h-[100vh] overflow-x-auto py-12 rounded-xl mb-10 bg-transparent">
         <div className="flex gap-12 w-max px-6">
           {items.map((item, index) => {
             const src = `${mediaUrl}${item.mediaFile}`;
@@ -66,7 +66,7 @@ export default function MediaFlowGallery({ items = [] }) {
                       src={src}
                       alt={description}
                       width={1000}
-                      height={600}
+                      height={60}
                       className="object-contain w-full h-[200px] md:h-[400px] lg:h-[500px]   max-h-fit transition-transform duration-500 group-hover:scale-105 rounded-lg"
                     />
                   )}

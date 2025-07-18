@@ -76,16 +76,16 @@ const handleDateChange = ({ startDate: s, endDate: e }) => {
 
   return (
     <div className="min-h-screen py-12 px-4 bg-gray-100 dark:bg-black transition-colors duration-300">
-      <motion.div
-        style={{ scale, height }}
-        whileHover={{ scale: 1 }}
-        transition={{ duration: 0.3 }}
-        className="bg-gradient-to-br mb-10 from-[#e0f2fe] to-[#fef9c3] 
-    dark:from-[#0000] dark:to-[#010d2b] w-full rounded-sm z-10 overflow-hidden flex items-stretch justify-center">
-        <div className="w-full h-fit">
-          <MediaFlowGallery items={pkg.images} />
-        </div>
-      </motion.div>
+      <div className="w-full max-w-4xl mx-auto mb-10 rounded-xl overflow-hidden shadow-md">
+        <img
+          src={
+            pkg.images?.[0]?.mediaFile &&
+            `${process.env.NEXT_PUBLIC_API_URL}/media/${pkg.images[0].mediaFile}`
+          }
+          alt={pkg.title}
+          className="w-full h-64 object-cover"
+        />
+      </div>
 
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-2/3 space-y-8">

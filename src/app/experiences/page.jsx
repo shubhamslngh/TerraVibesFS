@@ -25,7 +25,7 @@ export default function HomePage() {
     
 
         {/* === PACKAGES SECTION === */}
-        <section className=" w-[80vw] place-self-center rounded-2xl py-16">
+        <section className=" h-[300vh] w-[80vw] place-self-center rounded-2xl py-16">
           <div className="max-w-6xl mx-auto px-4">
             <h2 className="text-3xl font-cinzel text-center dark:text-white text-gray-800 mb-10">
               Journeys you can experience
