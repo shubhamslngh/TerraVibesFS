@@ -22,9 +22,9 @@ export default function Polaroid({
       whileHover={{ scale: 1.05, rotate: 0 }}
       transition={{ type: "spring", stiffness: 200, damping: 15 }}
       className={clsx(
-        "hover:shadow-red-200  shadow-xl p-2 pb-6",
+        "hover:shadow-red-200 hover:dark:text-slate-900  dark:text-slate-100  text-gray-700 shadow-xl p-2 pb-6",
         "bg-stone-100",
-        "rounded dark:shadow-teal-700 dark:bg-black dark:inset-shadow-lg dark:inset-shadow-indigo-500   hover:dark:shadow-white",
+        "rounded hover:dark:shadow-teal-100  dark:bg-black hover:dark:bg-red-50   ",
         "flex flex-col items-center",
         "w-full max-w-[90vw] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[600px]",
         rotationClass,
@@ -40,7 +40,7 @@ export default function Polaroid({
         />
       </div>
       {caption && (
-        <p className="text-sm mt-2 text-center text-gray-700 dark:text-gray-100 font-medium drop-shadow-sm">
+        <p className="text-sm mt-2 text-center   font-medium drop-shadow-sm">
           {caption}
         </p>
       )}

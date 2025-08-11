@@ -34,7 +34,7 @@ useEffect(() => {
 
   return (
     <div className="px-4 py-12">
-      <h1 className="text-3xl md:text-5xl font-extrabold text-center text-gray-800 dark:text-white mb-4">
+      <h1 className="text-3xl md:text-5xl font-lost font-extrabold text-center text-gray-800 dark:text-white mb-4">
         Find Your{" "}
         <span className="text-indigo-600 dark:text-indigo-400">Tripper</span>
       </h1>

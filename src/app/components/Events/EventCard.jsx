@@ -6,7 +6,7 @@ export default function EventCard({ pkg, scrollProgress = 0 }) {
   const base = `${process.env.NEXT_PUBLIC_API_URL}/media`;
   const scale = 1 - 0.7 * scrollProgress;
   const padding = `${20 - 15 * scrollProgress}px`;
-  const titleSize = scrollProgress < 0.5 ? "text-xl md:text-2xl" : "text-sm";
+  const titleSize = scrollProgress < 0.5 ? "text-md md:text-xl" : "text-sm";
   const hideText = scrollProgress > 0.8;
   let services = [];
   try {

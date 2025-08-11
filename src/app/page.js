@@ -1,56 +1,185 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import EventGrid from "@/components/Events/EventGrid";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { fetchPackages } from "@/lib/search";
 import EmotionPage from "./components/emotions";
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import HeroSection from "@/components/HeroSection";
 import GuideSelector from "./components/GuideSelector";
 import Guides from "@/components/ui/GuidesCards";
+import HeroSection from "@/components/HeroSection";
+import StarField from "./components/ui/Starfield";
+import { motion } from "framer-motion";
+
+// lightweight section shell that is light in day, transparent in dark
+function Section({ id, title, subtitle, children }) {
+  return (
+    <section id={id} className="relative w-full">
+      {/* transparent in dark mode */}
+      <div className="absolute inset-0 -z-10 hidden dark:block">
+        {/* keep background transparent in dark; only stars render */}
+        <StarField count={220} />
+      </div>
+
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1280px] mx-auto">
+          <div
+            className="
+              rounded-3xl border border-black/5 dark:border-white/15
+              bg-white/65 backdrop-blur-md
+              dark:bg-transparent dark:backdrop-blur-0
+              shadow-[0_8px_40px_rgba(0,0,0,0.06)]
+              overflow-hidden
+            "
+          >
+            {/* header */}
+            {(title || subtitle) && (
+              <div className="px-5 sm:px-8 py-6 sm:py-8">
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+                  {title && (
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white">
+                      {title}
+                    </h2>
+                  )}
+                  {subtitle && (
+                    <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
+                      {subtitle}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* content */}
+            <div className="px-5 sm:px-8 py-8 sm:py-10">{children}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+};
+
 export default function HomePage() {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const hasData = useMemo(() => (packages?.length ?? 0) > 0, [packages]);
+  const heroRef = useRef(null);
 
   useEffect(() => {
     fetchPackages({ isActive: true })
       .then((pkgs) => setPackages(pkgs))
-      .catch((error) => console.error("Failed to fetch packages:", error))
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
-  const ref=useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' }); 
-
-  const words = `Begin your healing with a journey...`;
 
   return (
-    <>
-      
-        <div className="grid place-items-center gap-16 py-20">
-        <HeroSection />
-        <section className="bg-center dark:bg-[url(/stars.jpg)] bg-contain  font-sans w-full">
-          <div className="w-100vw center mx-auto py-20 px-4">
-            
-            <EmotionPage />
-            <GuideSelector />
-            <Guides />
+    <div className="w-full">
+      {/* local anchor nav (sticky), transparent in dark */}
+      <div className="sticky top-0 z-30 w-full backdrop-blur-md bg-white/60 dark:bg-transparent border-b border-black/5 dark:border-white/10">
+        <nav className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <ul className="flex flex-wrap gap-2">
+            {[
+              { href: "#hero", label: "Top" },
+              { href: "#emotions", label: "Emotions" },
+              { href: "#guides", label: "Guides" },
+              { href: "#packages", label: "Packages" },
+            ].map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className="text-xs sm:text-sm px-3 py-1.5 rounded-full border border-black/10 dark:border-white/20
+                             bg-white/70 dark:bg-transparent text-neutral-700 dark:text-white/90 hover:bg-white hover:border-black/20
+                             transition"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      {/* page rhythm */}
+      <div className="flex flex-col items-center gap-12 sm:gap-16 lg:gap-20 py-10 sm:py-14 lg:py-16">
+        {/* HERO */}
+        <section id="hero" ref={heroRef} className="w-full overflow-x-hidden">
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1280px] mx-auto">
+              <HeroSection />
+            </div>
           </div>
-          
         </section>
-     
 
-      {/* === PACKAGES SECTION === */}
-      {/* <section className=" w-[80vw] place-self-center rounded-2xl py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-cinzel text-center dark:text-white text-gray-800 mb-10">
-            Journeys you can experience
-          </h2>
 
-          <EventGrid packages={packages} loading={loading} />
+        {/* divider */}
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1280px] mx-auto h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent" />
         </div>
-        </section> */}
+
+        {/* EMOTIONS */}
+        <Section
+          id="emotions"
+          title="Curate by Mood"
+          subtitle="Pick how you feel—discover matching experiences."
+        >
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+            variants={fadeUp}
+          >
+            <EmotionPage />
+          </motion.div>
+        </Section>
+
+        {/* GUIDES */}
+        <Section
+          id="guides"
+          title="Travel Guides"
+          subtitle="Handpicked routes, rituals and must-dos for every vibe."
+        >
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+            variants={fadeUp}
+          >
+            <GuideSelector />
+          </motion.div>
+        </Section>
+
+        {/* PACKAGES */}
+        <Section
+          id="packages"
+          title="Featured Packages"
+          subtitle="Ready-to-book journeys aligned to your mood."
+        >
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+            variants={fadeUp}
+          >
+            <Guides packages={packages} loading={loading} />
+            {!loading && !hasData && (
+              <div className="mt-6 rounded-xl border border-black/5 dark:border-white/15 p-6 text-center text-sm text-neutral-600 dark:text-neutral-300">
+                Nothing to show yet. Try another mood or check back soon.
+              </div>
+            )}
+          </motion.div>
+        </Section>
+
+        {/* bottom divider */}
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1280px] mx-auto h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent" />
         </div>
-    </>
+
+        {/* footer spacer */}
+        <div className="h-6 sm:h-10" />
+      </div>
+    </div>
   );
 }

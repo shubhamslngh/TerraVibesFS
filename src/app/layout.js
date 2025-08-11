@@ -15,42 +15,49 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cinzel.variable} ${monoton.variable} ${playfair.variable}`}>
-      <body className="relative will-change-scroll">
+      <body className="relative w-full overflow-x-hidden m-0 p-0">
+
         <Providers>
-          <ThemeInitializer /> {/* ⬅️ This handles the dark mode */}
-          <Navbar />
-          <main className="max-w-8xl w-full px-6 py-8 z-10 relative pt-16">{children}</main>
-          <footer
-               className="relative w-full min-h-30 mask-t-from-60% bg-[url('/footerimg2.jpg')] bg-cover bg-center rounded-2xl flex flex-col place-self-center items-center justify-center">
+          <ThemeInitializer /> 
+          <div className="min-h-screen flex flex-col">
+            <header className="w-full">
+              <Navbar />
+            </header>
 
-            
-            <div
-              className="absolute inset-0 pointer-events-none dark:hidden"
-              style={{
-                background:
-                  "linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.85) 80%)",
-                mixBlendMode: "multiply",
-              }}
-            />
-            {/* DARK THEME GRADIENT */}
-            <div
-              className="absolute inset-0 pointer-events-none hidden dark:block"
-              style={{
-                background:
-                  "linear-gradient(to bottom, rgba(20,24,31,0.1) 0%, rgba(24,32,48,0.88) 85%)",
-                mixBlendMode: "multiply",
-              }}
-            />
+            <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto pt-20">
+              {children}
+            </main>
 
-            <div className="relative z-10 w-full flex flex-col items-center justify-center">
-              <p className="font-playfair text-sm md:text-base text-center text-white dark:text-white drop-shadow-lg">
-                &copy; {new Date().getFullYear()} Event Platform. All rights reserved.
-              </p>
-              <p className="mt-2 text-xs md:text-sm text-white/80 dark:text-white/70 italic">
-                Made for foodies and explorers alike.
-              </p>
-            </div>
-          </footer>
+            <footer className="w-full border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-0">
+                {/* Left: Branding */}
+                <div className="text-sm text-center sm:text-left">
+                  <span className="font-semibold text-gray-900 dark:text-white">MySite</span> © {new Date().getFullYear()} — All rights reserved
+                </div>
+
+                {/* Center: Links */}
+                <div className="flex space-x-6 text-sm">
+                  <a href="/privacy" className="hover:text-blue-500 transition">Privacy</a>
+                  <a href="/terms" className="hover:text-blue-500 transition">Terms</a>
+                  <a href="/contact" className="hover:text-blue-500 transition">Contact</a>
+                </div>
+
+                <div className="flex space-x-4">
+                  <a href="https://twitter.com" aria-label="Twitter" className="hover:text-blue-400 transition">
+                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                      <path d="M24 4.6c-.9.4-1.8.6-2.7.8a4.7 4.7 0 0 0 2-2.6c-.9.6-2 .9-3 .9A4.5 4.5 0 0 0 16.6 3a4.5 4.5 0 0 0-4.5 4.5c0 .3 0 .6.1.9A12.9 12.9 0 0 1 3 3.9a4.5 4.5 0 0 0 1.4 6 4.4 4.4 0 0 1-2-.5v.1c0 2.2 1.6 4 3.6 4.5a4.6 4.6 0 0 1-2 .1 4.5 4.5 0 0 0 4.2 3.2A9 9 0 0 1 2 19.6a12.8 12.8 0 0 0 6.9 2c8.3 0 12.8-6.9 12.8-12.9v-.6a9 9 0 0 0 2.2-2.3z" />
+                    </svg>
+                  </a>
+                  <a href="https://github.com" aria-label="GitHub" className="hover:text-gray-900 dark:hover:text-white transition">
+                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6a3.2 3.2 0 0 0-1.3-1.8c-1.1-.7 0-.7 0-.7a2.5 2.5 0 0 1 1.8 1.2 2.6 2.6 0 0 0 3.6 1 2.6 2.6 0 0 1 .8-1.7c-2.6-.3-5.4-1.3-5.4-5.8A4.6 4.6 0 0 1 6 7.7a4.3 4.3 0 0 1 .1-3.2s1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.6 4.2 18.6 4.5 18.6 4.5a4.3 4.3 0 0 1 .1 3.2 4.6 4.6 0 0 1 1.2 3.2c0 4.5-2.8 5.5-5.4 5.8a2.9 2.9 0 0 1 .9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </footer>
+          </div>
+
         </Providers>
       </body>
     </html>

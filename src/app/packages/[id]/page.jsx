@@ -36,7 +36,7 @@ export default function PackageDetailsPage({ params }) {
     const start = 0;
     const end = 500;
     const minHeight = 300;
-    const maxHeight = window.innerHeight;
+    const maxHeight = 500;
     const scrollProgress = Math.min(scrollY / end, 1);
     const interpolatedHeight =
       maxHeight - (maxHeight - minHeight) * scrollProgress;

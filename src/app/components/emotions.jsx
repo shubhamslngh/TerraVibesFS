@@ -231,82 +231,85 @@ export default function EmotionWizard() {
    setSelectedEmotion(emotion);
  };
 
-  return (
-    <motion.div
-      ref={ref}
-      className="px-4 py-16 sm:py-24 md:py-2 transition-all">
-      <div className="max-w-6xl mx-auto flex flex-col items-center gap-10 text-center dark:text-white text-black px-4">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-light">
-          Pick the <Headings text="Mood" /> that guides your next adventure
-        </h1>
+ return (
+  <motion.div
+    ref={ref}
+    className="px-4 sm:px-6 lg:px-8 py-16 sm:py-2 transition-all"
+  >
+    <div className="max-w-screen-xl mx-auto flex flex-col items-center gap-10 text-center dark:text-white text-black">
+      {/* Heading */}
+      <h1 className="text-[clamp(1.5rem,4vw,2.5rem)] font-light leading-tight">
+        Pick the <Headings text="Mood" /> that guides your next adventure
+      </h1>
 
-        {/* Stage 1: Broad Mood Selection */}
-        {stage === 1 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
-            {broadMoods.map((m, i) => (
-              <div
-                key={m.id}
-                className="cursor-pointer"
-                onClick={() => {
-                  setBroadMood(m.id);
-                  setStage(2);
-                }}>
-                <Polaroid
-                  src={m.image}
-                  caption={`${m.label}  `}
-                  rotate={i % 2 === 0 ? "left" : "right"}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+      {/* Stage 1: Broad Mood Selection */}
+      {stage === 1 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
+          {broadMoods.map((m, i) => (
+            <div
+              key={m.id}
+              className="cursor-pointer"
+              onClick={() => {
+                setBroadMood(m.id);
+                setStage(2);
+              }}
+            >
+              <Polaroid
+                src={m.image}
+                caption={`${m.label}`}
+                rotate={i % 2 === 0 ? "left" : "right"}
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
-        {/* Stage 2: Detailed Emotion Selection */}
-        {stage === 2 && broadMood && !selectedEmotion && (
-          <>
-            <p className="text-lg">
-              You chose <strong>{broadMood}</strong>. Now pick a more specific
-              emotion:
-            </p>
+      {/* Stage 2: Detailed Emotion Selection */}
+      {stage === 2 && broadMood && !selectedEmotion && (
+        <>
+          <p className="text-base sm:text-lg">
+            You chose <strong>{broadMood}</strong>. Now pick a more specific emotion:
+          </p>
+
+          <div className="w-full max-w-3xl">
             <AnimatedTooltip
               items={detailedEmotionsMap[broadMood]}
               onSelect={handleEmotionSelect}
             />
-            {/* <button
-              onClick={() => {
-                setStage(1);
-                setBroadMood(null);
-              }}
-              className="mt-4 text-sm text-red-600 hover:underline">
-              ← Go Back
-            </button> */}
-          </>
-        )}
+          </div>
+        </>
+      )}
 
-        {/* Stage 3: Show Packages for Selected Emotion */}
-        {selectedEmotion && (
+      {/* Stage 3: Show Packages */}
+      {selectedEmotion && (
+        <div className="w-full">
           <EventGrid
             loading={loading}
             packages={packages}
             emotionName={selectedEmotion?.name}
           />
-        )}
-      </div>
-      {stage > 1 && (
-        <button
-          onClick={() => {
-            if (selectedEmotion) {
-              setSelectedEmotion(null); // back to stage 2
-            } else {
-              setBroadMood(null);
-              setStage(1); // back to stage 1
-            }
-          }}
-          className="mb-6 text-sm text-red-600 hover:underline flex items-center gap-1 self-start">
-          <span aria-hidden>←</span>
-          Go Back
-        </button>
+        </div>
       )}
-    </motion.div>
-  );
+
+      {/* Go Back Button */}
+      {stage > 1 && (
+        <div className="w-full flex justify-start">
+          <button
+            onClick={() => {
+              if (selectedEmotion) {
+                setSelectedEmotion(null); // back to stage 2
+              } else {
+                setBroadMood(null);
+                setStage(1); // back to stage 1
+              }
+            }}
+            className="mt-6 text-sm text-red-600 hover:underline flex items-center gap-1"
+          >
+            <span aria-hidden>←</span> Go Back
+          </button>
+        </div>
+      )}
+    </div>
+  </motion.div>
+);
 }
