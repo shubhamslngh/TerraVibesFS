@@ -7,7 +7,7 @@ import { Timeline } from "@/components/ui/Timeline";
 import MediaFlowGallery from "@/components/ui/MediaFlow";
 import { use } from "react";
 import { useRef, useEffect, useState } from "react";
-import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+// import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
 import Loader from "@/components/ui/loader";
 // Inside your component
