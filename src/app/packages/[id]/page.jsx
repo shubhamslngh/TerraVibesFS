@@ -1,5 +1,4 @@
 "use client";
-
 import { motion } from "framer-motion";
 import { notFound } from "next/navigation";
 import DateRangeSelector from "@/components/Calendar";
@@ -10,7 +9,6 @@ import { useRef, useEffect, useState } from "react";
 // import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
 import Loader from "@/components/ui/loader";
-// Inside your component
 
 export default function PackageDetailsPage({ params }) {
   const [pkg, setPkg] = useState(null);
@@ -34,9 +32,9 @@ export default function PackageDetailsPage({ params }) {
 
   const calcHeight = () => {
     const start = 0;
-    const end = 500;
-    const minHeight = 300;
-    const maxHeight = 500;
+    const end = 1000;
+    const minHeight = 100;
+    const maxHeight = 800;
     const scrollProgress = Math.min(scrollY / end, 1);
     const interpolatedHeight =
       maxHeight - (maxHeight - minHeight) * scrollProgress;
@@ -92,8 +90,7 @@ export default function PackageDetailsPage({ params }) {
   }
 
   const priceNumber = parseFloat(pkg.price);
-  const imagePaths =
-    pkg.images?.map((img) => `${mediaUrl}${img.mediaFile}`) || [];
+  
 
   const timelineData = [
     {
@@ -178,7 +175,7 @@ export default function PackageDetailsPage({ params }) {
       <motion.div
         style={{ height: calcHeight() }}
         transition={{ duration: 0.4 }}
-        className="w-full bg-gradient-to-br from-[#e0f2fe] to-[#fef9c3] 
+        className="w-full  
     dark:from-transparent dark:to-[#010d2b] rounded-sm z-10 overflow-hidden">
         <MediaFlowGallery items={pkg.images} />
       </motion.div>

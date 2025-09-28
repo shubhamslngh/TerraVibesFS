@@ -20,7 +20,6 @@ const getRandomLayout = () => {
 export default function MediaFlowGallery({ items = [] }) {
   const galleryRef = useRef(null);
 
-  // ✅ Persist layout direction per item using useMemo
   const layouts = useMemo(() => items.map(() => getRandomLayout()), [items]);
 
   if (!items.length) return null;

@@ -1,68 +1,69 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef } from "react";
 
-export default function StarField({ count = 120 }) {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+export default function StarfieldCanvas() {
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    // Listen for class change if theme toggles
-    const observer = new MutationObserver(() => {
-      setIsDarkMode(document.documentElement.classList.contains("dark"));
-    });
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    observer.observe(document.documentElement, { attributes: true });
+    const ctx = canvas.getContext("2d");
 
-    // Initial detection
-    setIsDarkMode(document.documentElement.classList.contains("dark"));
+    // Set canvas size to match the window, and handle resize
+    const setup = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
 
-    return () => observer.disconnect();
+    const numStars = 200;
+    const stars = Array.from({ length: numStars }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 1,
+      opacity: 0, // Start invisible for fade-in
+      speed: Math.random() * 0.05 + 0.01, // How fast it fades in
+    }));
+
+    let animationFrameId;
+
+    // The animation loop
+    const animate = () => {
+      // Clear the canvas on each frame
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      stars.forEach((star) => {
+        // Fade in the star
+        if (star.opacity < 1) {
+          star.opacity += star.speed;
+        }
+
+        // Draw the star
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size / 2, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    setup();
+    window.addEventListener("resize", setup);
+    animate();
+
+    // Cleanup function
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", setup);
+    };
   }, []);
 
-  const colors = useMemo(() => {
-    return isDarkMode
-      ? ["#ffffff", "#2196F3", "#80d8ff"]
-      : ["#FFD700", "#f0e68c", "#fceabb"];
-  }, [isDarkMode]);
-
-  const stars = useMemo(() => {
-    return Array.from({ length: count }).map((_, i) => {
-      const size = Math.random() * 2 + 1;
-      const top = Math.random() * 100;
-      const left = Math.random() * 100;
-      const delay = Math.random() * 5;
-      const duration = Math.random() * 3 + 2;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      return { id: i, size, top, left, delay, duration, color };
-    });
-  }, [count, colors]);
-
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
-      {stars.map((star) => (
-        <motion.div
-          key={star.id}
-          initial={{ opacity: 0.2 }}
-          animate={{ opacity: [0.2, 1, 0.2] }}
-          transition={{
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "easeInOut",
-            duration: star.duration,
-            delay: star.delay,
-          }}
-          className="absolute rounded-full"
-          style={{
-            top: `${star.top}%`,
-            left: `${star.left}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            backgroundColor: star.color,
-            boxShadow: `0 0 ${star.size * 2}px ${star.color}`,
-          }}
-        />
-      ))}
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 z-0 pointer-events-none"
+    />
   );
 }

@@ -39,7 +39,7 @@ export default function EventCard({ pkg, scrollProgress = 0 }) {
     <Link href={`/packages/${pkg.id}`}>
       <div
         style={{ transform: `scale(${scale})`, padding }}
-        className="hover:scale-115 p-2 text-center relative group w-auto max-w-[50vw] sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] 
+        className="hover:scale-115 p-2 text-center relative group w-auto max-w-[50vw] sm:max-w-[300px] md:max-w-[350px] lg:max-w-[300px] 
     mx-auto rounded-xl bg-gradient-to-br from-white via-neutral-100 to-neutral-300 
     dark:from-[#1f1c2c] dark:via-[#2d2d2d] dark:to-black 
     shadow-lg transition-transform duration-300">
@@ -47,7 +47,7 @@ export default function EventCard({ pkg, scrollProgress = 0 }) {
         <div className="absolute -bottom-2 right-2 w-1/4 h-full dark:bg-amber-100 dark:opacity-35 bg-red-100 z-0 transform rotate-[20deg] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-0 group-hover:-bottom-4 group-hover:bg-transparent shadow-[0_15px_10px_rgba(0,11,0,0.2)] pointer-events-none" />
 
         {/* Image container */}
-        <div className="relative w-full aspect-[4/2.5] rounded-md overflow-hidden mb-4 shadow-md">
+        <div className="relative w-full aspect-[4/2] rounded-md overflow-hidden mb-4 shadow-md">
           <div
             className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
             style={{ backgroundImage: `url(${bgImage1})` }}

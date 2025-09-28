@@ -58,7 +58,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navbarRef}
-      className="p-2 bg-opacity-0 dark:bg-opacity-0 transition-all duration-700 ease-in-out w-full fixed top-0 left-0 z-50 backdrop-blur-lg bg-white dark:bg-black/80 shadow-md">
+      className="p-2 bg-opacity-0 bg-transparent dark:bg-opacity-0 transition-all duration-700 ease-in-out w-full fixed top-0 left-0 z-50 backdrop-blur-lg dark:bg-black/80 shadow-md">
       <div className="max-w-[80vw] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link

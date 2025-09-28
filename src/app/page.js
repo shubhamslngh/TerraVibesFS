@@ -9,15 +9,13 @@ import HeroSection from "@/components/HeroSection";
 import StarField from "./components/ui/Starfield";
 import { motion } from "framer-motion";
 
-// lightweight section shell that is light in day, transparent in dark
+
 function Section({ id, title, subtitle, children }) {
   return (
     <section id={id} className="relative w-full">
-      {/* transparent in dark mode */}
-      <div className="absolute inset-0 -z-10 hidden dark:block">
-        {/* keep background transparent in dark; only stars render */}
+      {/* <div className="absolute inset-0 -z-10 hidden dark:block">
         <StarField count={220} />
-      </div>
+      </div> */}
 
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1280px] mx-auto">
@@ -77,46 +75,20 @@ export default function HomePage() {
 
   return (
     <div className="w-full">
-      {/* local anchor nav (sticky), transparent in dark */}
-      <div className="sticky top-0 z-30 w-full backdrop-blur-md bg-white/60 dark:bg-transparent border-b border-black/5 dark:border-white/10">
-        <nav className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <ul className="flex flex-wrap gap-2">
-            {[
-              { href: "#hero", label: "Top" },
-              { href: "#emotions", label: "Emotions" },
-              { href: "#guides", label: "Guides" },
-              { href: "#packages", label: "Packages" },
-            ].map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="text-xs sm:text-sm px-3 py-1.5 rounded-full border border-black/10 dark:border-white/20
-                             bg-white/70 dark:bg-transparent text-neutral-700 dark:text-white/90 hover:bg-white hover:border-black/20
-                             transition"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
 
       {/* page rhythm */}
       <div className="flex flex-col items-center gap-12 sm:gap-16 lg:gap-20 py-10 sm:py-14 lg:py-16">
         {/* HERO */}
-        <section id="hero" ref={heroRef} className="w-full overflow-x-hidden">
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="max-w-[1280px] mx-auto">
-              <HeroSection />
-            </div>
+        <section className="relative h-auto w-full">
+          <div className="sticky top-0 h-auto w-full">
+            <HeroSection ref={heroRef} />
           </div>
         </section>
 
 
         {/* divider */}
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="max-w-[1280px] mx-auto h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent" />
+          <div className="max-w-8xl mx-auto h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent" />
         </div>
 
         {/* EMOTIONS */}

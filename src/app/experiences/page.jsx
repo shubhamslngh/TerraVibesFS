@@ -40,7 +40,7 @@ export default function HomePage() {
       </section>
 
       {/* Experience Grid Section */}
-      <section className="w-full place-items-center py-16 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto">
+      <section className="w-full place-items-center py-16 px-4 sm:px-6 lg:px-8 max-w-screen-4xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white font-cinzel">
             Journeys You Can Experience

@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
               <Navbar />
             </header>
 
-            <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto pt-20">
+            <main className="flex-grow w-full  max-w-screen-8xl mx-auto pt-20">
               {children}
             </main>
 
