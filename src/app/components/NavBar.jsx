@@ -63,12 +63,12 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-[clamp(1.5rem,5vw,2.5rem)] font-cinzel font-bold text-slate-600 dark:text-red-300">
+          className="text-[clamp(1.5rem,5vw,2.5rem)] font-bold text-slate-600 dark:text-red-300">
           TerraVibes
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-8 font-playfair text-[clamp(0.875rem,1vw,1.125rem)] text-gray-700 dark:text-gray-200">
+        <div className="hidden md:flex items-center space-x-8  text-[clamp(0.875rem,1vw,1.125rem)] text-gray-700 dark:text-gray-200">
           <Link href="/" className="hover:text-indigo-500 transition">
             Home
           </Link>
@@ -76,6 +76,11 @@ export default function Navbar() {
             href="/experiences"
             className="hover:text-indigo-500 transition">
             Experiences
+          </Link>
+          <Link
+            href="/blogs"
+            className="hover:text-indigo-500 transition">
+            Stories
           </Link>
         </div>
 
@@ -154,7 +159,7 @@ export default function Navbar() {
                   <XMarkIcon className="h-6 w-6" />
                 </button>
               </div>
-              <div className="flex flex-col space-y-4 font-playfair text-lg">
+              <div className="flex flex-col space-y-4  text-lg">
                 <Link href="/" onClick={() => setMobileMenuOpen(false)}>
                   Home
                 </Link>

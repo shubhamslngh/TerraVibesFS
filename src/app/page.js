@@ -6,17 +6,12 @@ import EmotionPage from "./components/emotions";
 import GuideSelector from "./components/GuideSelector";
 import Guides from "@/components/ui/GuidesCards";
 import HeroSection from "@/components/HeroSection";
-import StarField from "./components/ui/Starfield";
 import { motion } from "framer-motion";
 
 
 function Section({ id, title, subtitle, children }) {
   return (
     <section id={id} className="relative w-full">
-      {/* <div className="absolute inset-0 -z-10 hidden dark:block">
-        <StarField count={220} />
-      </div> */}
-
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1280px] mx-auto">
           <div
@@ -65,7 +60,9 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const hasData = useMemo(() => (packages?.length ?? 0) > 0, [packages]);
   const heroRef = useRef(null);
-
+  const handleScrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   useEffect(() => {
     fetchPackages({ isActive: true })
       .then((pkgs) => setPackages(pkgs))
@@ -81,7 +78,7 @@ export default function HomePage() {
         {/* HERO */}
         <section className="relative h-auto w-full">
           <div className="sticky top-0 h-auto w-full">
-            <HeroSection ref={heroRef} />
+            <HeroSection onExploreClick={handleScrollToContent} ref={heroRef} />
           </div>
         </section>
 

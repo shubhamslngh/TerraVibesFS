@@ -40,7 +40,7 @@ export default function Polaroid({
         />
       </div>
       {caption && (
-        <p className="text-sm mt-2 text-center   font-medium drop-shadow-sm">
+        <p className="text-sm mt-2 text-center font-playfair drop-shadow-sm">
           {caption}
         </p>
       )}

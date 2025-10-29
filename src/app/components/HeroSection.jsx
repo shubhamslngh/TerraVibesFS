@@ -19,7 +19,7 @@ const TextFade = ({ text, className = "" }) => (
   </motion.h2>
 );
 
-export default function HeroSection() {
+export default function HeroSection({onExploreClick }) {
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -33,7 +33,7 @@ export default function HeroSection() {
   });
 
   const h1 = useTransform(p, [0, 0.5, 1], [250, 320, 200]);
-  const h2 = useTransform(p, [0, 0.5, 1], [190, 40, 220]);
+  const h2 = useTransform(p, [0, 0.5, 1], [20, 40, 220]);
   const h3 = useTransform(p, [0, 0.5, 1], [140, 200, 280]);
 
   const sky = useMotionTemplate`
@@ -109,6 +109,8 @@ export default function HeroSection() {
         src="/liftmountain.png"
         alt="Foreground mountain"
         style={{ y: fgY }}
+        animate={{ scale: [1, 1.02, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className="absolute bottom-0 w-full object-cover z-0"
       />
 
@@ -117,6 +119,7 @@ export default function HeroSection() {
         style={{ opacity: contentOpacity }}
         className="relative z-10 text-center px-4">
         <motion.h1
+          onClick={onExploreClick}
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -131,7 +134,7 @@ export default function HeroSection() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
           className="mt-8 px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 transition">
-          Get Started
+          Explore
         </motion.button>
       </motion.div>
 
