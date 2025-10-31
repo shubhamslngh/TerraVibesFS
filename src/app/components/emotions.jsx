@@ -107,100 +107,6 @@ const detailedEmotionsMap = {
     },
   ],
 };
-// const broadMoods = [
-//   {
-//     id: "happy",
-//     label: "Radiant",
-//     emoji: "😊",
-//     image: "/moods/happy.png",
-//   },
-//   {
-//     id: "sad",
-//     label: "Reflective",
-//     emoji: "😢",
-//     image: "/moods/sad.png",
-//   },
-//   {
-//     id: "anxious",
-//     label: "Grounded",
-//     emoji: "😰",
-//     image: "/moods/anxious.jpg",
-//   },
-//   {
-//     id: "calm",
-//     label: "Serene",
-//     emoji: "😌",
-//     image: "/moods/calm1.jpg",
-//   },
-//   {
-//     id: "tired",
-//     label: "Renewed",
-//     emoji: "😴",
-//     image: "/moods/tired.jpg",
-//   },
-// ]
-
-// // Detailed emotions by broad mood (images unchanged)
-// const detailedEmotionsMap = {
-//   calm: [
-//     {
-//       id: 1,
-//       name: "Stillness Seeker",
-//       designation: "Embark on peaceful reflection",
-//       image: "/moods/m2.jpg",
-//     },
-//     {
-//       id: 4,
-//       name: "Explorer’s Heart",
-//       designation: "Discover calm adventures",
-//       image: "/moods/explore.jpg",
-//     },
-//   ],
-//   sad: [
-//     {
-//       id: 3,
-//       name: "Heart Healer",
-//       designation: "Begin your healing journey",
-//       image: "/moods/explore2.jpg",
-//     },
-//     {
-//       id: 6,
-//       name: "Circle of Care",
-//       designation: "Connect and uplift together",
-//       image: "/moods/group.jpeg",
-//     },
-//   ],
-//   anxious: [
-//     {
-//       id: 2,
-//       name: "Grounding Guide",
-//       designation: "Find your center and breathe",
-//       image: "/moods/toomuch.jpg",
-//     },
-//   ],
-//   tired: [
-//     {
-//       id: 5,
-//       name: "Energy Restorer",
-//       designation: "Recharge body and mind",
-//       image: "/moods/break.jpg",
-//     },
-//   ],
-//   happy: [
-//     {
-//       id: 7,
-//       name: "Joyful Voyager",
-//       designation: "Celebrate every moment",
-//       image: "/moods/elated.jpg",
-//     },
-//     {
-//       id: 8,
-//       name: "Playful Spirit",
-//       designation: "Embrace lighthearted fun",
-//       image: "/moods/lightfun.jpg",
-//     },
-//   ],
-// }
 
 
 export default function EmotionWizard() {
@@ -213,7 +119,6 @@ export default function EmotionWizard() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  // Whenever selectedEmotion changes, re-fetch packages matching that emotion
  useEffect(() => {
    if (!selectedEmotion) return;
 
@@ -236,7 +141,7 @@ export default function EmotionWizard() {
     ref={ref}
     className="px-4 sm:px-6 lg:px-8 py-16 sm:py-2 transition-all"
   >
-    <div className="max-w-screen-xl mx-auto flex flex-col items-center gap-10 text-center dark:text-white text-black">
+    <div className="max-w-screen-3xl mx-auto flex flex-col items-center gap-10 text-center dark:text-white text-black">
       {/* Heading */}
       <h1 className="text-[clamp(1.5rem,4vw,2.5rem)] font-light leading-tight">
         Pick the <Headings text="Mood" /> that guides your next adventure

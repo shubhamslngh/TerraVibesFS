@@ -63,23 +63,23 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-[clamp(1.5rem,5vw,2.5rem)] font-bold text-slate-600 dark:text-red-300">
-          TerraVibes
+          className="text-[clamp(1.2rem,3vw,2rem)] font-bold text-black dark:text-red-300">
+          CrispyTraveller
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-8  text-[clamp(0.875rem,1vw,1.125rem)] text-gray-700 dark:text-gray-200">
-          <Link href="/" className="hover:text-indigo-500 transition">
+        <div className="hidden md:flex items-center space-x-8  text-[clamp(0.875rem,1.2vw,2.125rem)] text-gray-700 dark:text-gray-200">
+          <Link href="/" className="hover:text-red-500 transition">
             Home
           </Link>
           <Link
             href="/experiences"
-            className="hover:text-indigo-500 transition">
+            className="hover:text-red-500 transition">
             Experiences
           </Link>
           <Link
             href="/blogs"
-            className="hover:text-indigo-500 transition">
+            className="hover:text-red-500 transition">
             Stories
           </Link>
         </div>

@@ -20,9 +20,9 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="w-full bg-white dark:bg-gray-950 transition-colors duration-300">
+    <main className="w-full justify-center bg-white dark:bg-gray-950 transition-colors duration-300">
       {/* Hero Section */}
-      <section className="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="w-full flex place-content-center py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

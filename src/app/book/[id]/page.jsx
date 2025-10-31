@@ -12,7 +12,8 @@ import { useScroll, useTransform } from "framer-motion";
 import { useMemo } from "react";
 
 export default function BookingPage({ params }) {
-  const { id } = params;
+   const resolvedParams = use(params);
+  const { id } = resolvedParams;  
   const searchParams = useSearchParams();
   const start = searchParams.get("start");
   const end = searchParams.get("end");

@@ -26,7 +26,7 @@ export default function BlogDetailPage() {
       <motion.img
         src={`${blog.media_file}`}
         alt={blog.title}
-        className="w-full rounded-2xl mb-8 object-cover"
+        className="w-full rounded-2xl mb-8 h-80 object-cover"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}

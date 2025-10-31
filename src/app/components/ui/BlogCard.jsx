@@ -10,8 +10,8 @@ export default function BlogCard({ blog }) {
     <motion.div
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className="
-        bg-white dark:bg-gray-900 shadow-lg rounded-2xl overflow-hidden
+      className=" flex flex-row h-56 w-[40vw]
+        bg-white dark:bg-black dark:mask-b-from-orange-10 shadow-lg rounded-2xl overflow-hidden
         border border-gray-200 dark:border-gray-700 hover:shadow-xl
         transition-all duration-300
       ">
@@ -20,12 +20,12 @@ export default function BlogCard({ blog }) {
         <img
           src={`${blog.media_file}`}
           alt={blog.title}
-          className="w-full h-56 object-cover"
+          className="w-56 h-auto object-cover"
         />
       )}
 
       {/* Blog Content */}
-      <div className="p-5">
+      <div className="flex flex-col p-5">
         <h2 className="text-2xl font-semibold font-cinzel text-gray-800 dark:text-white mb-2">
           {blog.title}
         </h2>
