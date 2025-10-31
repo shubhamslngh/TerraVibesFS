@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { fetchPackages } from "@/lib/search";
+import { getBlogs } from "@/services/api";
 import EmotionPage from "./components/emotions";
 import GuideSelector from "./components/GuideSelector";
 import Guides from "@/components/ui/GuidesCards";
 import HeroSection from "@/components/HeroSection";
-import { motion } from "framer-motion";
-
+import BlogCard from "@/components/ui/BlogCard"; // ✅ import correctly
 
 function Section({ id, title, subtitle, children }) {
   return (
@@ -23,7 +24,6 @@ function Section({ id, title, subtitle, children }) {
               overflow-hidden
             "
           >
-            {/* header */}
             {(title || subtitle) && (
               <div className="px-5 sm:px-8 py-6 sm:py-8">
                 <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
@@ -40,8 +40,6 @@ function Section({ id, title, subtitle, children }) {
                 </div>
               </div>
             )}
-
-            {/* content */}
             <div className="px-5 sm:px-8 py-8 sm:py-10">{children}</div>
           </div>
         </div>
@@ -57,23 +55,31 @@ const fadeUp = {
 
 export default function HomePage() {
   const [packages, setPackages] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const hasData = useMemo(() => (packages?.length ?? 0) > 0, [packages]);
   const heroRef = useRef(null);
+  const contentRef = useRef(null);
+  const hasPackages = useMemo(() => (packages?.length ?? 0) > 0, [packages]);
+
   const handleScrollToContent = () => {
     contentRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
   useEffect(() => {
+    // Fetch travel packages
     fetchPackages({ isActive: true })
       .then((pkgs) => setPackages(pkgs))
       .catch(() => { })
       .finally(() => setLoading(false));
+
+    // Fetch latest blogs
+    getBlogs()
+      .then((res) => setBlogs(res.data.slice(0, 3))) // show latest 3
+      .catch((err) => console.error("Error fetching blogs:", err));
   }, []);
 
   return (
     <div className="w-full">
-
-      {/* page rhythm */}
       <div className="flex flex-col items-center gap-12 sm:gap-16 lg:gap-20 py-10 sm:py-14 lg:py-16">
         {/* HERO */}
         <section className="relative h-auto w-full">
@@ -82,29 +88,28 @@ export default function HomePage() {
           </div>
         </section>
 
-
         {/* divider */}
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="max-w-8xl mx-auto h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent" />
         </div>
 
-        {/* EMOTIONS */}
-        <Section
-          id="emotions"
-          title="Curate by Mood"
-          subtitle="Pick how you feel—discover matching experiences."
-        >
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.25 }}
-            variants={fadeUp}
+        <div ref={contentRef}>
+          <Section
+            id="emotions"
+            title="Curate by Mood"
+            subtitle="Pick how you feel—discover matching experiences."
           >
-            <EmotionPage />
-          </motion.div>
-        </Section>
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.25 }}
+              variants={fadeUp}
+            >
+              <EmotionPage />
+            </motion.div>
+          </Section>
+        </div>
 
-        {/* GUIDES */}
         <Section
           id="guides"
           title="Travel Guides"
@@ -120,7 +125,33 @@ export default function HomePage() {
           </motion.div>
         </Section>
 
-        {/* PACKAGES */}
+        {/* STORIES (Blogs) */}
+        <Section
+          id="stories"
+          title="Stories"
+          subtitle="Hear real journeys from explorers like you."
+        >
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+            variants={fadeUp}
+          >
+            {blogs.length > 0 ? (
+              <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                {blogs.map((blog) => (
+                  <BlogCard key={blog.id} blog={blog} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500 dark:text-gray-400">
+                No stories yet. Check back soon!
+              </p>
+            )}
+          </motion.div>
+        </Section>
+
+        {/* PACKAGES
         <Section
           id="packages"
           title="Featured Packages"
@@ -133,21 +164,13 @@ export default function HomePage() {
             variants={fadeUp}
           >
             <Guides packages={packages} loading={loading} />
-            {!loading && !hasData && (
+            {!loading && !hasPackages && (
               <div className="mt-6 rounded-xl border border-black/5 dark:border-white/15 p-6 text-center text-sm text-neutral-600 dark:text-neutral-300">
                 Nothing to show yet. Try another mood or check back soon.
               </div>
             )}
           </motion.div>
-        </Section>
-
-        {/* bottom divider */}
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="max-w-[1280px] mx-auto h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent" />
-        </div>
-
-        {/* footer spacer */}
-        <div className="h-6 sm:h-10" />
+        </Section> */}
       </div>
     </div>
   );

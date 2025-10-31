@@ -84,13 +84,10 @@ export default function PackageDetailsPage({ params }) {
   };
 
   if (!pkg) {
-    return (
-      <Loader/>
-    );
+    return <Loader />;
   }
 
   const priceNumber = parseFloat(pkg.price);
-  
 
   const timelineData = [
     {
@@ -109,7 +106,7 @@ export default function PackageDetailsPage({ params }) {
         </motion.div>
       ),
     },
-  
+
     {
       title: "📖 Description",
       content: (
@@ -171,15 +168,26 @@ export default function PackageDetailsPage({ params }) {
     },
   ].filter(Boolean);
   return (
-    <motion.div className=" p-2 place-content-center relative  bg-white dark:bg-black text-stone-800 dark:text-stone-100">
+    <motion.div className="p-2 place-content-center relative bg-white dark:bg-black text-stone-800 dark:text-stone-100">
+      {/* 1. The Gallery (stays on z-10) */}
       <motion.div
         style={{ height: calcHeight() }}
         transition={{ duration: 0.4 }}
-        className="w-full  
-    dark:from-transparent dark:to-[#010d2b] rounded-sm z-10 overflow-hidden">
+        className="w-full dark:from-transparent dark:to-[#010d2b] rounded-sm z-10 overflow-hidden">
         <MediaFlowGallery items={pkg.images} />
       </motion.div>
-      <div className="px-4 sm:px-8 pt-8 pb-16">
+
+      {/* 2. The Glass Content Section */}
+      <div
+        className="
+          relative z-20 -mt-16 
+          px-4 sm:px-8 pt-8 pb-16 
+          rounded-t-2xl 
+          border-t border-white/30 
+          bg-white/50 dark:bg-black/50 
+          backdrop-blur-md 
+          shadow-lg
+        ">
         <h1 className="text-4xl font-bold mb-6">Package Details</h1>
         <Timeline data={timelineData} />
       </div>

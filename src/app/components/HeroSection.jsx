@@ -63,13 +63,13 @@ export default function HeroSection({onExploreClick }) {
     mixBlendMode: "screen",
   };
 
-  const fgY = useTransform(p, [0, 1], ["0%", "12%"]);
+  const fgY = useTransform(p, [0, 1], ["0%", "30%"]);
   const contentOpacity = useTransform(p, [0, 0.6, 1], [1, 0.75, 0.6]);
 
   return (
     <motion.section
       ref={sectionRef}
-      className="relative w-full h-[60vh] md:h-[100vh] lg:h-[100vh] flex items-center justify-center overflow-hidden text-white">
+      className="relative w-full h-auto xs:h-[40vh] sm:h-[40vh] md:h-[100vh] lg:h-[100vh] flex items-center justify-center overflow-hidden text-white">
       {/* --- SKY WRAPPER with mask (only sky fades at top) --- */}
       <div className="absolute inset-0 -z-30 sky-mask-t-90 pointer-events-none">
         {/* Animated sky */}
@@ -106,12 +106,12 @@ export default function HeroSection({onExploreClick }) {
 
       {/* --- FOREGROUND stays OUTSIDE the masked sky --- */}
       <motion.img
-        src="/liftmountain.png"
+        src="/mount.png"
         alt="Foreground mountain"
-        style={{ y: fgY }}
-        animate={{ scale: [1, 1.02, 1] }}
+        style={{ y: fgY}}
+        animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-0 w-full object-cover z-0"
+        className="absolute bottom-0 w-full object-fill z-0"
       />
 
       {/* Content */}
@@ -123,17 +123,18 @@ export default function HeroSection({onExploreClick }) {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-[clamp(2.4rem,8vw,5.2rem)] font-bold tracking-tight drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
-          Explore Beyond
+          className="text-[clamp(2.4rem,8vw,5.2rem)] font-bold text-black tracking-tight drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
+          Explore Beyond .
         </motion.h1>
         <TextFade
           text="Switch sceneries. Shift perspectives."
           className="mt-4 text-lg md:text-xl text-gray-100"
         />
-        <motion.button
+       <motion.button
+          onClick={onExploreClick} // <--- ADD THIS
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
-          className="mt-8 px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 transition">
+          className="mt-8 px-6 py-3 rounded-full bg-white/10 font-bold backdrop-blur-md border border-white/30 hover:bg-white/20 transition">
           Explore
         </motion.button>
       </motion.div>

@@ -13,7 +13,7 @@ export default function Guides({ guides = [], onSelect, selectedGuideId }) {
         <div
           key={guide.id || idx}
           onClick={() => onSelect?.(guide.id)}
-          className={`relative max-w-xs w-full sm:w-[300px] h-[380px] bg-black rounded-xl overflow-hidden shadow-lg cursor-pointer transition-transform duration-500 transform group hover:scale-105 ${
+          className={`relative max-w-xs w-full sm:w-[200px] h-[280px] bg-black rounded-xl overflow-hidden shadow-lg cursor-pointer transition-transform duration-500 transform group hover:scale-105 ${
             selectedGuideId === guide.id
               ? "scale-115 z-10 ring-4 ring-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.5)]"
               : ""

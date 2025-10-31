@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { getBlogs } from "@/services/api";
-
+import BlogCard from "@/components/ui/BlogCard";
 export default function BlogPage() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,30 +66,7 @@ export default function BlogPage() {
         ) : (
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {blogs.map((blog) => (
-              <motion.div
-                key={blog.id}
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 200 }}
-                className="bg-white dark:bg-gray-900 shadow-lg rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                <img
-                  src={`${blog.media_file}`}
-                  alt={blog.title}
-                  className="w-full h-56 object-cover"
-                />
-                <div className="p-5">
-                  <h2 className="text-2xl font-semibold font-cinzel text-gray-800 dark:text-white mb-2">
-                    {blog.title}
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">
-                    {blog.body?.slice(0, 150)}...
-                  </p>
-                  <Link
-                    href={`/blogs/${blog.slug}`}
-                    className="text-orange-600 dark:text-amber-400 font-semibold hover:underline">
-                    Read More →
-                  </Link>
-                </div>
-              </motion.div>
+              <BlogCard key={blog.id} blog={blog} />
             ))}
           </div>
         )}

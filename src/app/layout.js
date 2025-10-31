@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-0">
                 {/* Left: Branding */}
                 <div className="text-sm text-center sm:text-left">
-                  <span className="font-semibold text-gray-900 dark:text-white">MySite</span> © {new Date().getFullYear()} — All rights reserved
+                  <span className="font-semibold text-gray-900 dark:text-white">MoodsnTravel</span> © {new Date().getFullYear()} — All rights reserved
                 </div>
 
                 {/* Center: Links */}
