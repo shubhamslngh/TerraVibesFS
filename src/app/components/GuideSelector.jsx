@@ -2,38 +2,42 @@
 
 import { useState, useEffect } from "react";
 import { getGuides, getPackages } from "@/services/api";
-import Guides from "@/components/ui/GuidesCards"; // Dynamic guide cards
-import EventGrid from "@/components/Events/EventGrid"; // Grid to show packages
+import Guides from "@/components/ui/GuidesCards";
+import EventGrid from "@/components/Events/EventGrid";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function GuideSelector() {
   const [guides, setGuides] = useState([]);
   const [packages, setPackages] = useState([]);
   const [selectedGuideId, setSelectedGuideId] = useState(null);
   const [filtered, setFiltered] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch all guides and packages on mount
+  // 🧩 Fetch guides + packages on mount
   useEffect(() => {
     Promise.all([getGuides(), getPackages()]).then(([gRes, pRes]) => {
-      setGuides(gRes.data);
-      setPackages(pRes.data);
-      setFiltered(pRes.data); // default to all packages
+      setGuides(gRes.data || []);
+      setPackages(pRes.data || []);
+      setFiltered(pRes.data || []);
+      setLoading(false);
     });
   }, []);
-useEffect(() => {
-  if (!selectedGuideId) {
-    setFiltered(packages);
-  } else {
-    // Filter packages where any of the guides in the package has the selected guide ID
-    const filteredPackages = packages.filter((pkg) =>
-      pkg.guides.some((g) => g.id === selectedGuideId)
-    );
 
-    setFiltered(filteredPackages);
-  }
-}, [selectedGuideId, packages]);
+  // 🎯 Update filtered list when a guide is selected
+  useEffect(() => {
+    if (!selectedGuideId) {
+      setFiltered(packages);
+    } else {
+      const filteredPackages = packages.filter((pkg) =>
+        pkg.guides?.some((g) => g.id === selectedGuideId)
+      );
+      setFiltered(filteredPackages);
+    }
+  }, [selectedGuideId, packages]);
 
   return (
     <div className="px-4 py-12">
+      {/* Title */}
       <h1 className="text-3xl md:text-5xl font-lost font-extrabold text-center text-gray-800 dark:text-white mb-4">
         Find Your{" "}
         <span className="text-indigo-600 dark:text-indigo-400">Tripper</span>
@@ -42,7 +46,8 @@ useEffect(() => {
         Select a guide below to discover handpicked experiences crafted just for
         you.
       </p>
-      {/* Dynamic Guide Cards */}
+
+      {/* 🎫 Guide Cards */}
       <Guides
         guides={guides}
         onSelect={setSelectedGuideId}
@@ -66,18 +71,27 @@ useEffect(() => {
         </button>
       </div>
 
-      {/* Filtered Packages */}
+      {/* 🎠 Filtered EventGrid with animation */}
       <div className="mt-12 justify-center">
-        {selectedGuideId != null && (
-          <p className="mb-4 text-center text-lg">
-            Experiences with{" "}
-            <span className="font-semibold">
-              {guides.find((g) => g.id === selectedGuideId)?.name}
-            </span>
-          </p>
-        )}
+        <AnimatePresence mode="wait">
+          {selectedGuideId != null && (
+            <motion.p
+              key={selectedGuideId}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="mb-4 text-center text-lg">
+              Experiences with{" "}
+              <span className="font-semibold">
+                {guides.find((g) => g.id === selectedGuideId)?.name}
+              </span>
+            </motion.p>
+          )}
+        </AnimatePresence>
 
-        <EventGrid packages={filtered} />
+        {/* 🪄 Scrollable + Masked Event Grid */}
+        <EventGrid packages={filtered} loading={loading} />
       </div>
     </div>
   );

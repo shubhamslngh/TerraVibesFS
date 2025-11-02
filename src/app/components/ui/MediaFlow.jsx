@@ -9,11 +9,7 @@ const mediaUrl = `${process.env.NEXT_PUBLIC_API_URL}/media/`;
 
 // Utility to randomly pick a layout direction
 const getRandomLayout = () => {
-  const layouts = [
-    "flex-col-reverse",
-    "flex-row",
-    "flex-row-reverse",
-  ];
+  const layouts = ["flex-col-reverse", "flex-row", "flex-row-reverse"];
   return layouts[Math.floor(Math.random() * layouts.length)];
 };
 
@@ -35,6 +31,16 @@ dark:from-teal-950 dark:to-transparent ">
           const description = item.body || "Experience.";
           const title = item.title || "Journey";
           const layout = layouts[index];
+
+          // --- FIX ---
+          // Set your desired max length here
+          const maxLength = 150;
+
+          // Remove the old 'if' block:
+          // if (description.length > 100) {
+          //   description.trim(150) // This was the incorrect part
+          // }
+          // --- END FIX ---
 
           return (
             <MotionDiv
@@ -74,7 +80,17 @@ dark:from-teal-950 dark:to-transparent ">
               {/* Description - always visible and spaced properly */}
               <div className="dark:text-white text-black font-[monoton] text-left px-2 py-4 w-full max-w-xl min-h-[100px] overflow-visible z-10">
                 <h3 className="text-xl font-bold mb-2">{title}</h3>
-                <p className="text-md dark:text-indigo-300">{description}</p>
+
+                {/* --- FIX ---
+                    We apply the logic directly here.
+                    If the description is too long, we slice it and add "..."
+                --- */}
+                <p className="text-md dark:text-indigo-300">
+                  {description.length > maxLength
+                    ? `${description.slice(0, maxLength)}...`
+                    : description}
+                </p>
+                {/* --- END FIX --- */}
               </div>
             </MotionDiv>
           );

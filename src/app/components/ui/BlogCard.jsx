@@ -10,7 +10,9 @@ export default function BlogCard({ blog }) {
     <motion.div
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className=" flex flex-row h-56 w-[40vw]
+      className="
+        flex-shrink-0 w-[80vw] md:w-full
+        max-xs:grid max-xs:grid-cols-1 flex flex-row h-56
         bg-white dark:bg-black dark:mask-b-from-orange-10 shadow-lg rounded-2xl overflow-hidden
         border border-gray-200 dark:border-gray-700 hover:shadow-xl
         transition-all duration-300
@@ -20,13 +22,13 @@ export default function BlogCard({ blog }) {
         <img
           src={`${blog.media_file}`}
           alt={blog.title}
-          className="w-56 h-auto object-cover"
+          className="w-56 h-full max-sm:h-auto max-xs:w-full max-xs:h-32 object-cover"
         />
       )}
 
       {/* Blog Content */}
-      <div className="flex flex-col p-5">
-        <h2 className="text-2xl font-semibold font-cinzel text-gray-800 dark:text-white mb-2">
+      <div className="flex flex-col p-5 overflow-hidden">
+        <h2 className="text-2xl font-semibold font-cinzel text-gray-800 dark:text-white mb-2 truncate">
           {blog.title}
         </h2>
         <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">
@@ -40,7 +42,7 @@ export default function BlogCard({ blog }) {
 
         <Link
           href={`/blogs/${blog.slug}`}
-          className="text-orange-600 dark:text-amber-400 font-semibold hover:underline">
+          className="text-orange-600 dark:text-amber-400 font-semibold hover:underline mt-auto">
           Read More →
         </Link>
       </div>

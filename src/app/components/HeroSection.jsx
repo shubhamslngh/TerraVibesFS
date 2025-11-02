@@ -69,7 +69,13 @@ export default function HeroSection({onExploreClick }) {
   return (
     <motion.section
       ref={sectionRef}
-      className="relative w-full h-auto xs:h-[40vh] sm:h-[40vh] md:h-[100vh] lg:h-[100vh] flex items-center justify-center overflow-hidden text-white">
+      className="
+    relative w-full h-[80vh]
+    max-sm:h-[40vh]
+    md:h-[80vh]
+    lg:h-[70vh]
+    flex items-center justify-center overflow-hidden text-white
+  ">
       {/* --- SKY WRAPPER with mask (only sky fades at top) --- */}
       <div className="absolute inset-0 -z-30 sky-mask-t-90 pointer-events-none">
         {/* Animated sky */}
@@ -111,7 +117,7 @@ export default function HeroSection({onExploreClick }) {
         style={{ y: fgY}}
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-0 w-full object-fill z-0"
+        className="absolute bottom-0 w-full object-cover z-0"
       />
 
       {/* Content */}

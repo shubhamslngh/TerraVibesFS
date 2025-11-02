@@ -80,11 +80,11 @@ export default function HomePage() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col items-center gap-12 sm:gap-16 lg:gap-20 py-10 sm:py-14 lg:py-16">
+      <div className="flex flex-col items-center gap-12 sm:gap-16 lg:gap-10 py-10 sm:py-14 lg:py-16">
         {/* HERO */}
         <section className="relative h-auto w-full">
           <div className="sticky top-0 h-auto w-full">
-            <HeroSection onExploreClick={handleScrollToContent} ref={heroRef} />
+            <HeroSection onExploreClick={handleScrollToContent} />
           </div>
         </section>
 
