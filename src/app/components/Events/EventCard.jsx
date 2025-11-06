@@ -5,7 +5,6 @@ import Link from "next/link";
 export default function EventCard({ pkg, scrollProgress = 0 }) {
   const base = `${process.env.NEXT_PUBLIC_API_URL}/media`;
 
- 
   const titleSize =
     scrollProgress < 0.5
       ? "text-sm sm:text-base md:text-lg"
@@ -21,30 +20,29 @@ export default function EventCard({ pkg, scrollProgress = 0 }) {
     console.error("Failed to parse services:", e);
   }
 
-
   const imagePaths =
     pkg.images?.map((img) =>
       img.media_file
         ? img.media_file
-        : `${base}/${img.mediaFile.replace(/^\/+/, "")}`
+        : `${base}/${img.mediaFile?.replace(/^\/+/, "")}`
     ) || [];
 
   const bgImage1 = imagePaths[0];
   const bgImage2 = imagePaths[1];
 
-
   return (
-    <Link href={`/packages/${pkg.id}`}>
+    <Link href={`/packages/${pkg.id}`} className="block w-full">
       <div
-        className="hover:scale-115 p-2 text-center relative group 
-    w-full
-    rounded-xl bg-gradient-to-br from-white via-neutral-100 to-neutral-300 
-    dark:from-[#1f1c2c] dark:via-[#2d2d2d] dark:to-black 
-    shadow-lg transition-transform duration-300">
-        {/* Simulated Lift Shadow */}
-        <div className="absolute -bottom-2 right-2 w-1/4 h-full dark:bg-amber-100 dark:opacity-35 bg-red-100 z-0 transform rotate-[20deg] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-0 group-hover:-bottom-4 group-hover:bg-transparent shadow-[0_15px_10px_rgba(0,11,0,0.2)] pointer-events-none" />
+        className="
+          group relative p-2 text-center rounded-xl 
+          bg-gradient-to-br from-white via-neutral-100 to-neutral-300 
+          dark:from-[#1f1c2c] dark:via-[#2d2d2d] dark:to-black 
+          shadow-lg transition-transform duration-300 hover:scale-105
+        ">
+        {/* Decorative shadow strip */}
+        <div className="absolute -bottom-2 right-2 w-1/4 h-full dark:bg-amber-100 dark:opacity-35 bg-red-100 z-0 transform rotate-[20deg] transition-all duration-500 group-hover:rotate-0 group-hover:-bottom-4 group-hover:bg-transparent shadow-[0_15px_10px_rgba(0,11,0,0.2)] pointer-events-none" />
 
-        {/* Image container (kept at 16:9 for a good mobile view) */}
+        {/* Image */}
         <div className="relative w-full aspect-[16/9] rounded-md overflow-hidden mb-2 shadow-md">
           <div
             className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
@@ -59,14 +57,12 @@ export default function EventCard({ pkg, scrollProgress = 0 }) {
           <div className="absolute inset-0 bg-black/20 z-10" />
         </div>
 
-        {/* Text Content */}
+        {/* Title */}
         <div className="relative z-20 text-gray-800 dark:text-amber-200 px-1 pb-1">
           <h2
             className={`${titleSize} font-semibold line-clamp-2 drop-shadow-sm dark:text-amber-300`}>
             {pkg.title}
           </h2>
-
-          {/* --- CHANGE 2: Removed the description <p> tag --- */}
         </div>
       </div>
     </Link>

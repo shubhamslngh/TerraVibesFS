@@ -13,14 +13,13 @@ import BlogCard from "@/components/ui/BlogCard"; // ✅ import correctly
 function Section({ id, title, subtitle, children }) {
   return (
     <section id={id} className="relative w-full">
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="px-4 ">
         <div className="max-w-[1280px] mx-auto">
           <div
             className="
               rounded-3xl border border-black/5 dark:border-white/15
               bg-white/65 backdrop-blur-md
               dark:bg-transparent dark:backdrop-blur-0
-              shadow-[0_8px_40px_rgba(0,0,0,0.06)]
               overflow-hidden
             "
           >
@@ -40,7 +39,7 @@ function Section({ id, title, subtitle, children }) {
                 </div>
               </div>
             )}
-            <div className="px-5 sm:px-8 py-8 sm:py-10">{children}</div>
+            <div className="px-2">{children}</div>
           </div>
         </div>
       </div>

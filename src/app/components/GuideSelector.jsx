@@ -90,7 +90,6 @@ export default function GuideSelector() {
           )}
         </AnimatePresence>
 
-        {/* 🪄 Scrollable + Masked Event Grid */}
         <EventGrid packages={filtered} loading={loading} />
       </div>
     </div>
