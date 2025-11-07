@@ -7,6 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import LoginDialog from "@/components/modals/loginDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -72,14 +73,10 @@ export default function Navbar() {
           <Link href="/" className="hover:text-red-500 transition">
             Home
           </Link>
-          <Link
-            href="/experiences"
-            className="hover:text-red-500 transition">
+          <Link href="/experiences" className="hover:text-red-500 transition">
             Experiences
           </Link>
-          <Link
-            href="/blogs"
-            className="hover:text-red-500 transition">
+          <Link href="/blogs" className="hover:text-red-500 transition">
             Stories
           </Link>
         </div>
@@ -120,6 +117,7 @@ export default function Navbar() {
           ) : null}
 
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            <DotLottieReact src="/LDswitch.lottie" loop autoplay />
             <span className="text-xl">{isDark ? "🌞" : "🌙"}</span>
           </Button>
         </div>

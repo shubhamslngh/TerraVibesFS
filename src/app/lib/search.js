@@ -34,7 +34,6 @@ export async function fetchPackages({ mood = null, maxPrice = null, isActive = t
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
       },
       body: JSON.stringify({
         query: PACKAGES_QUERY,

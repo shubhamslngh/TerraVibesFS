@@ -56,7 +56,7 @@ export const BackgroundGradient = ({
                 }}
                 className={cn(
                     "absolute inset-0 rounded-3xl z-[1] will-change-transform",
-                    "bg-[radial-gradient(circle_farthest-side_at_0_100%,#000,transparent),radial-gradient(circle_farthest-side_at_100%_0,#fff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#000,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]"
+                    "bg-[radial-gradient(circle_farthest-side_at_0_100%,#000,transparent),radial-gradient(circle_farthest-sie_at_100%_0,#fff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#000,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]"
                 )} />
             <div className={cn("relative z-10", className)}>{children}</div>
         </div>
