@@ -1,6 +1,6 @@
 "use client";
 
-import HorizontalScrollGrid from "@/components/common/HorizontalScrollGrid";
+import HorizontalScrollGrid from "@/components/Common/HorizontalScrollGrid";
 import BlogCard from "@/components/Blogs/BlogCard";
 
 export default function BlogGrid({ blogs = [], loading = false }) {
