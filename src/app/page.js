@@ -8,7 +8,8 @@ import EmotionPage from "./components/emotions";
 import GuideSelector from "./components/GuideSelector";
 import Guides from "@/components/ui/GuidesCards";
 import HeroSection from "@/components/HeroSection";
-import BlogCard from "@/components/ui/BlogCard"; // ✅ import correctly
+import BlogGrid from "@/components/Blogs/BlogGrid";
+
 
 function Section({ id, title, subtitle, children }) {
   return (
@@ -136,19 +137,10 @@ export default function HomePage() {
             viewport={{ once: true, amount: 0.25 }}
             variants={fadeUp}
           >
-            {blogs.length > 0 ? (
-              <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                {blogs.map((blog) => (
-                  <BlogCard key={blog.id} blog={blog} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-gray-500 dark:text-gray-400">
-                No stories yet. Check back soon!
-              </p>
-            )}
+            <BlogGrid blogs={blogs} loading={false} />
           </motion.div>
         </Section>
+
 
         {/* PACKAGES
         <Section

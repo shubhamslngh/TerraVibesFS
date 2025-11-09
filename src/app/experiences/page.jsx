@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import EventGrid from "@/components/Events/EventGrid";
 import { fetchPackages } from "@/lib/search";
 import { motion, useInView } from "framer-motion";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function HomePage() {
   const [packages, setPackages] = useState([]);
@@ -27,7 +28,7 @@ export default function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="max-w-3xl">
+          className="max-w-3xl text-center">
           <h1 className="text-4xl sm:text-5xl font-cinzel font-bold text-gray-900 dark:text-white leading-snug">
             Begin your healing with a{" "}
             <span className="text-blue-600 dark:text-purple-400">Journey</span>
@@ -40,7 +41,9 @@ export default function HomePage() {
       </section>
 
       {/* Experience Grid Section */}
-      <section className="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section
+        ref={ref}
+        className="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white font-cinzel">
             Journeys You Can Experience
@@ -51,17 +54,26 @@ export default function HomePage() {
           </p>
         </div>
 
-        {!loading ? (
+        {/* 🧭 Replace loading text with travel animation */}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center mt-12">
+            <DotLottieReact
+              src="/travek.lottie" // 👈 Place your Lottie file in /public/travel.lottie
+              autoplay
+              loop
+              style={{ width: 280, height: 280 }}
+            />
+            <p className="text-center font-bold text-red-800 text-lg mt-4">
+              Loading your journeys...
+            </p>
+          </div>
+        ) : (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: "easeOut" }}>
             <EventGrid packages={packages} loading={loading} />
           </motion.div>
-        ) : (
-          <p className="text-center text-gray-500 dark:text-gray-400 text-lg">
-            Loading journeys...
-          </p>
         )}
       </section>
     </main>

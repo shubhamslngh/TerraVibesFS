@@ -169,18 +169,18 @@ export default function EmotionWizard() {
 
         {/* Stage 2: Detailed Emotion Selection */}
         {stage === 2 && broadMood && !selectedEmotion && (
-         <div
+          <div
             className="
-              flex flex-nowrap overflow-x-scroll items-center
+              flex flex-wrap items-center 
               lg:flex-wrap lg:justify-center lg:overflow-x-auto
               py-4 
             ">
-            <p className="text-base sm:text-lg">
+            <p className="text-base sm:text-lg ">
               You chose <strong>{broadMood}</strong>. Now pick a more specific
               emotion:
             </p>
 
-            <div className="w-full overflow-x-auto pb-4">
+            <div className="w-full place-content-around overflow-x-auto pb-4 h-[400px]">
               <AnimatedTooltip
                 items={detailedEmotionsMap[broadMood]}
                 onSelect={handleEmotionSelect}

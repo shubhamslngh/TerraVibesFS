@@ -66,7 +66,7 @@ export default function AuthDialog({ children }) {
       if (result?.ok) {
         setIsOpen(false);
         resetForm();
-        router.refresh(); // Optional: reload current route
+        router.refresh();
       } else {
         setErrors({ non_field_errors: ["Invalid email or password"] });
       }
@@ -82,39 +82,39 @@ export default function AuthDialog({ children }) {
     }
   };
 
-
-  const renderFieldError = (field) => {
-    if (errors[field]) {
-      return errors[field].map((msg, i) => (
-        <p key={i} className="text-red-600 text-sm">
-          {msg}
-        </p>
-      ));
-    }
-    return null;
-  };
+  const renderFieldError = (field) =>
+    errors[field]?.map((msg, i) => (
+      <p key={i} className="text-red-500 text-xs mt-1">
+        {msg}
+      </p>
+    ));
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>{isSignup ? "Sign Up" : "Login"}</DialogTitle>
-          <DialogDescription>
+
+      <DialogContent
+        className="max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-neutral-900/90
+                   backdrop-blur-md shadow-xl p-6 space-y-4 transition-all duration-300">
+        <DialogHeader className="text-center space-y-2">
+          <DialogTitle className="text-2xl font-semibold text-gray-900 dark:text-white">
+            {isSignup ? "Create Account" : "Welcome Back"}
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-600 dark:text-gray-400">
             {isSignup
-              ? "Create a new account."
-              : "Enter your email and password."}
+              ? "Sign up to start your next adventure."
+              : "Sign in to continue exploring."}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="grid gap-4">
+        <form onSubmit={handleSubmit} className="grid gap-4 mt-4">
+          {/* Signup Fields */}
           {isSignup && (
-            <>
+            <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label htmlFor="firstName">First Name</Label>
                 <Input
                   id="firstName"
-                  type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
@@ -125,24 +125,28 @@ export default function AuthDialog({ children }) {
                 <Label htmlFor="lastName">Last Name</Label>
                 <Input
                   id="lastName"
-                  type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   required
                 />
                 {renderFieldError("last_name")}
               </div>
+            </div>
+          )}
+
+          {isSignup && (
+            <>
               <div>
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
-                  type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
                 />
                 {renderFieldError("username")}
               </div>
+
               <div>
                 <Label htmlFor="phone">Phone</Label>
                 <Input
@@ -157,6 +161,7 @@ export default function AuthDialog({ children }) {
             </>
           )}
 
+          {/* Common Fields */}
           <div>
             <Label htmlFor="email">Email</Label>
             <Input
@@ -181,56 +186,59 @@ export default function AuthDialog({ children }) {
             {renderFieldError("password")}
           </div>
 
-          {errors.non_field_errors &&
-            errors.non_field_errors.map((msg, i) => (
-              <p key={i} className="text-red-600 text-sm">
-                {msg}
-              </p>
-            ))}
+          {errors.non_field_errors?.map((msg, i) => (
+            <p key={i} className="text-red-500 text-sm text-center">
+              {msg}
+            </p>
+          ))}
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full mt-2 font-medium text-base"
+            disabled={isLoading}>
             {isLoading
               ? isSignup
-                ? "Signing up..."
-                : "Signing in..."
+                ? "Creating Account..."
+                : "Signing In..."
               : isSignup
               ? "Sign Up"
               : "Sign In"}
           </Button>
-
-          <div className="text-center text-sm text-gray-500">
-            {isSignup ? (
-              <>
-                Already have an account?{" "}
-                <button
-                  type="button"
-                  className="text-blue-600 hover:underline"
-                  onClick={() => {
-                    setIsSignup(false);
-                    resetForm();
-                  }}>
-                  Login
-                </button>
-              </>
-            ) : (
-              <>
-                Don't have an account?{" "}
-                <button
-                  type="button"
-                  className="text-blue-600 hover:underline"
-                  onClick={() => {
-                    setIsSignup(true);
-                    resetForm();
-                  }}>
-                  Sign Up
-                </button>
-              </>
-            )}
-          </div>
         </form>
 
+        {/* Switch Mode */}
+        <div className="text-center text-sm mt-3 text-gray-600 dark:text-gray-400">
+          {isSignup ? (
+            <>
+              Already have an account?{" "}
+              <button
+                type="button"
+                className="text-blue-600 dark:text-amber-400 hover:underline"
+                onClick={() => {
+                  setIsSignup(false);
+                  resetForm();
+                }}>
+                Login
+              </button>
+            </>
+          ) : (
+            <>
+              Don’t have an account?{" "}
+              <button
+                type="button"
+                className="text-blue-600 dark:text-amber-400 hover:underline"
+                onClick={() => {
+                  setIsSignup(true);
+                  resetForm();
+                }}>
+                Sign Up
+              </button>
+            </>
+          )}
+        </div>
+
         <DialogClose asChild>
-          
+          <div />
         </DialogClose>
       </DialogContent>
     </Dialog>

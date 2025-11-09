@@ -1,11 +1,9 @@
 "use client";
 
+import React, { useEffect, useRef, useState, Fragment } from "react";
 import Link from "next/link";
-import React, { Fragment } from "react";
-import { useEffect, useState, useRef } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import LoginDialog from "@/components/modals/loginDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
@@ -18,49 +16,53 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import LoginDialog from "@/components/modals/loginDialog";
 
 export default function Navbar() {
-  const [isDark, setIsDark] = useState(undefined);
+  const [isDark, setIsDark] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navbarRef = useRef(null);
+  const lottieRef = useRef(null);
   const { data: session, status } = useSession();
 
-  const getDomTheme = () =>
-    typeof document !== "undefined"
-      ? document.documentElement.classList.contains("dark")
-      : false;
-
+  // --- Detect and set theme on mount ---
   useEffect(() => {
-    setIsDark(getDomTheme());
+    const savedTheme =
+      localStorage.getItem("theme") ||
+      (document.documentElement.classList.contains("dark") ? "dark" : "light");
+
+    const dark = savedTheme === "dark";
+    setIsDark(dark);
+    document.documentElement.classList.toggle("dark", dark);
   }, []);
 
-  useEffect(() => {
-    const currtheme =
-      localStorage.getItem("theme") || localStorage.getItem("nuxt-color-mode");
-    if (currtheme === "dark") {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
+  // --- Toggle theme + control Lottie animation ---
   const toggleTheme = () => {
-    const newTheme = isDark ? "light" : "dark";
+    const goingToDark = !isDark;
+    const newTheme = goingToDark ? "dark" : "light";
     localStorage.setItem("theme", newTheme);
-    localStorage.setItem("nuxt-color-mode", newTheme);
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    document.documentElement.classList.toggle("dark", goingToDark);
+    setIsDark(goingToDark);
+
+    // Lottie animation control
+    const api = lottieRef.current;
+    if (api) {
+      try {
+        if (goingToDark && api.setMode) {
+          api.setMode("reverse"); // Play backwards (moon → sun)
+        } else if (!goingToDark && api.setMode) {
+          api.setMode("normal"); // Play forward (sun → moon)
+        }
+        api.play?.();
+      } catch (e) {
+        console.warn("Lottie control failed:", e);
+        api.play?.(); // Fallback
+      }
+    }
   };
 
-  if (isDark === undefined) return null;
-
   return (
-    <nav
-      ref={navbarRef}
-      className="p-2 bg-opacity-0 bg-transparent dark:bg-opacity-0 transition-all duration-700 ease-in-out w-full fixed top-0 left-0 z-50 backdrop-blur-lg dark:bg-black/80 shadow-md">
-      <div className="max-w-[80vw] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <nav className="p-2 fixed top-0 w-full bg-transparent backdrop-blur-md z-50">
+      <div className="max-w-[80vw] mx-auto flex items-center justify-between h-16 px-6">
         {/* Logo */}
         <Link
           href="/"
@@ -68,15 +70,15 @@ export default function Navbar() {
           CrispyTraveller
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-8  text-[clamp(0.875rem,1.2vw,2.125rem)] text-gray-700 dark:text-gray-200">
-          <Link href="/" className="hover:text-red-500 transition">
+        {/* Desktop Links */}
+        <div className="hidden md:flex space-x-8 text-gray-700 dark:text-gray-200">
+          <Link href="/" className="hover:text-red-500">
             Home
           </Link>
-          <Link href="/experiences" className="hover:text-red-500 transition">
+          <Link href="/experiences" className="hover:text-red-500">
             Experiences
           </Link>
-          <Link href="/blogs" className="hover:text-red-500 transition">
+          <Link href="/blogs" className="hover:text-red-500">
             Stories
           </Link>
         </div>
@@ -93,10 +95,7 @@ export default function Navbar() {
                 <Button variant="dark" className="rounded-full p-0">
                   <Avatar className="h-8 w-8">
                     {session.user.image ? (
-                      <AvatarImage
-                        src={session.user.image}
-                        alt={session.user.name}
-                      />
+                      <AvatarImage src={session.user.image} alt="User" />
                     ) : (
                       <AvatarFallback>{session.user.name?.[0]}</AvatarFallback>
                     )}
@@ -116,13 +115,21 @@ export default function Navbar() {
             </DropdownMenu>
           ) : null}
 
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            <DotLottieReact src="/LDswitch.lottie" loop autoplay />
-            <span className="text-xl">{isDark ? "🌞" : "🌙"}</span>
+          {/* ✅ Lottie Theme Toggle Button */}
+          <Button onClick={toggleTheme} variant="ghost" size="icon">
+            <DotLottieReact
+              dotLottieRefCallback={(instance) =>
+                (lottieRef.current = instance)
+              }
+              src="/LDswitch.lottie"
+              autoplay={false}
+              loop={false}
+              style={{ width: 40, height: 40 }}
+            />
           </Button>
         </div>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile Menu Button */}
         <div className="md:hidden">
           <Button
             variant="ghost"
@@ -133,11 +140,11 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Modal */}
+      {/* Mobile Menu */}
       <Transition show={mobileMenuOpen} as={Fragment}>
         <Dialog
           onClose={() => setMobileMenuOpen(false)}
-          className="relative z-50 md:hidden">
+          className="relative z-50">
           <Transition.Child
             as={Fragment}
             enter="transition ease-out duration-200"
@@ -150,14 +157,15 @@ export default function Navbar() {
           </Transition.Child>
 
           <div className="fixed inset-0 z-50 flex justify-end">
-            <Dialog.Panel className="w-72 bg-white dark:bg-black text-black dark:text-white p-6 space-y-6">
+            <Dialog.Panel className="w-72 bg-white dark:bg-black p-6">
               <div className="flex justify-between items-center">
                 <span className="text-xl font-bold">Menu</span>
                 <button onClick={() => setMobileMenuOpen(false)}>
                   <XMarkIcon className="h-6 w-6" />
                 </button>
               </div>
-              <div className="flex flex-col space-y-4  text-lg">
+
+              <div className="flex flex-col mt-6 space-y-4">
                 <Link href="/" onClick={() => setMobileMenuOpen(false)}>
                   Home
                 </Link>
@@ -166,7 +174,8 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}>
                   Experiences
                 </Link>
-                {status !== "loading" && session && (
+
+                {session && (
                   <>
                     <Link
                       href="/profile"
@@ -175,22 +184,23 @@ export default function Navbar() {
                     </Link>
                     <button
                       onClick={() => {
-                        setMobileMenuOpen(false);
                         signOut();
-                      }}
-                      className="text-left">
+                        setMobileMenuOpen(false);
+                      }}>
                       Sign Out
                     </button>
                   </>
                 )}
-                {status !== "loading" && !session && (
+
+                {!session && (
                   <LoginDialog mode="login">
                     <Button variant="outline" className="w-full">
                       Login
                     </Button>
                   </LoginDialog>
                 )}
-                <Button variant="ghost" className="mt-4" onClick={toggleTheme}>
+
+                <Button variant="ghost" onClick={toggleTheme}>
                   {isDark ? "🌞 Light Mode" : "🌙 Dark Mode"}
                 </Button>
               </div>
