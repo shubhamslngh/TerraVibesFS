@@ -2,124 +2,41 @@
 
 import { useState, useEffect, useRef } from "react";
 import { AnimatedTooltip } from "@/components/ui/AnimatedTooltip";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Headings from "@/components/ui/Headings";
 import { fetchPackages } from "@/lib/search";
 import EventGrid from "@/components/Events/EventGrid";
 import Polaroid from "@/components/ui/poloroid";
-
-// ... (Your moods and emotions maps remain unchanged) ...
-const broadMoods = [
-  {
-    id: "happy",
-    label: "Main Character",
-    emoji: "🎬",
-    image: "/moods/happy.png",
-  },
-  {
-    id: "sad",
-    label: "In My Feels",
-    emoji: "😢",
-    image: "/moods/sad.png",
-  },
-  {
-    id: "anxious",
-    label: "Overthinking",
-    emoji: "😵‍💫",
-    image: "/moods/anxious.jpg",
-  },
-  {
-    id: "calm",
-    label: "Healing Era",
-    emoji: "🌸",
-    image: "/moods/calm1.jpg",
-  },
-  {
-    id: "tired",
-    label: "Sleep Is Life",
-    emoji: "💤",
-    image: "/moods/tired.jpg",
-  },
-];
-
-const detailedEmotionsMap = {
-  calm: [
-    {
-      id: 1,
-      name: "Calm",
-      designation: "Need peace",
-      image: "/moods/m2.jpg",
-    },
-    {
-      id: 4,
-      name: "Curious",
-      designation: "Open to explore",
-      image: "/moods/explore.jpg",
-    },
-  ],
-  sad: [
-    {
-      id: 3,
-      name: "Heartbroken",
-      designation: "Emotionally drained",
-      image: "/moods/explore2.jpg",
-    },
-    {
-      id: 6,
-      name: "Lonely",
-      designation: "Connect With People",
-      image: "/moods/group.jpeg",
-    },
-  ],
-  anxious: [
-    {
-      id: 2,
-      name: "Overwhelmed",
-      designation: "Too much going on",
-      image: "/moods/toomuch.jpg",
-    },
-  ],
-  tired: [
-    {
-      id: 5,
-      name: "Burnt Out",
-      designation: "Need a break",
-      image: "/moods/break.jpg",
-    },
-  ],
-  happy: [
-    {
-      id: 7,
-      name: "Joyful",
-      designation: "Feeling elated",
-      image: "/moods/elated.jpg",
-    },
-    {
-      id: 8,
-      name: "Playful",
-      designation: "Lighthearted fun",
-      image: "/moods/lightfun.jpg",
-    },
-  ],
-};
+import axios from "axios";
 
 export default function EmotionWizard() {
   const [stage, setStage] = useState(1);
   const [broadMood, setBroadMood] = useState(null);
   const [selectedEmotion, setSelectedEmotion] = useState(null);
 
+  const [moods, setMoods] = useState([]); // ← backend moods
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
+  // 🔹 1. Fetch moods from backend
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/moods/") // update endpoint if different
+      .then((res) => setMoods(res.data || []))
+      .catch((err) => console.error("Error fetching moods:", err));
+  }, []);
+
+  // 🔹 2. Fetch packages when emotion selected
   useEffect(() => {
     if (!selectedEmotion) return;
 
     setLoading(true);
     fetchPackages({
-      mood: selectedEmotion.designation,
+      mood: selectedEmotion.name,
       isActive: true,
     })
       .then((pkgs) => setPackages(pkgs))
@@ -131,11 +48,58 @@ export default function EmotionWizard() {
     setSelectedEmotion(emotion);
   };
 
+  // 🧠 3. Create a derived "broad mood" mapping based on categories
+  // You can group backend moods by first letter, vibe, or tags later.
+  const broadMoods = [
+    {
+      id: "calm",
+      label: "Healing Era 🌿",
+      emoji: "🌸",
+      image: "/moods/calm1.jpg",
+      filter: (m) => /peace|break|calm/i.test(m.name),
+    },
+    {
+      id: "sad",
+      label: "Lowkey Heartbroken 💔",
+      emoji: "😢",
+      image: "/moods/sad.png",
+      filter: (m) => /emotionally|overwhelmed|disconnected/i.test(m.name),
+    },
+    {
+      id: "happy",
+      label: "Main Character Energy ✨",
+      emoji: "🎬",
+      image: "/moods/happy.png",
+      filter: (m) => /happy|elated|fun/i.test(m.name),
+    },
+    {
+      id: "tired",
+      label: "In My Burnout Era 😮‍💨",
+      emoji: "💤",
+      image: "/moods/tired.jpg",
+      filter: (m) => /exhausted|need a break/i.test(m.name),
+    },
+    {
+      id: "curious",
+      label: "Soft-Launch Explorer 🧭",
+      emoji: "🧭",
+      image: "/moods/explore.jpg",
+      filter: (m) => /curious/i.test(m.name),
+    },
+   
+  ];
+
+
+  // 🪄 4. Filter backend moods per broadMood
+  const detailedEmotions = broadMood
+    ? moods.filter((m) => broadMoods.find((b) => b.id === broadMood)?.filter(m))
+    : [];
+
   return (
     <motion.div
       ref={ref}
       className="px-4 sm:px-6 lg:px-8 py-16 sm:py-2 transition-all">
-      <div className="h-auto max-w-[80vw] flex flex-col gap-10  dark:text-white text-black">
+      <div className="h-auto max-w-[80vw] flex flex-col gap-10 dark:text-white text-black">
         {/* Heading */}
         <h1 className="text-[clamp(1.5rem,4vw,2.5rem)] font-light leading-tight">
           Pick the <Headings text="Mood" /> that guides your next adventure
@@ -143,12 +107,7 @@ export default function EmotionWizard() {
 
         {/* Stage 1: Broad Mood Selection */}
         {stage === 1 && (
-          <div
-            className="
-              flex flex-nowrap overflow-x-scroll 
-              lg:flex-wrap lg:justify-center lg:overflow-x-auto
-              py-4 
-            ">
+          <div className="flex flex-nowrap overflow-x-scroll lg:flex-wrap lg:justify-center lg:overflow-x-auto py-4">
             {broadMoods.map((m, i) => (
               <div
                 key={m.id}
@@ -169,20 +128,20 @@ export default function EmotionWizard() {
 
         {/* Stage 2: Detailed Emotion Selection */}
         {stage === 2 && broadMood && !selectedEmotion && (
-          <div
-            className="
-              flex flex-wrap items-center 
-              lg:flex-wrap lg:justify-center lg:overflow-x-auto
-              py-4 
-            ">
-            <p className="text-base sm:text-lg ">
+          <div className="flex flex-col items-center py-4">
+            <p className="text-base sm:text-lg mb-6">
               You chose <strong>{broadMood}</strong>. Now pick a more specific
               emotion:
             </p>
 
-            <div className="w-full place-content-around overflow-x-auto pb-4 h-[400px]">
+            <div className="w-full place-content-around overflow-x-auto pb-4 h-[500px]">
               <AnimatedTooltip
-                items={detailedEmotionsMap[broadMood]}
+                items={detailedEmotions.map((m) => ({
+                  id: m.id,
+                  name: m.name,
+                  designation: m.description,
+                  image: m.image || "/moods/default.jpg", // fallback
+                }))}
                 onSelect={handleEmotionSelect}
               />
             </div>

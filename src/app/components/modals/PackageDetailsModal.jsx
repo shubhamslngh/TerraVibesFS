@@ -158,7 +158,7 @@ export default function PackageDetailsModal({ pkg, onClose }) {
           </TabsContent>
 
           {/* IMAGES TAB */}
-          <TabsContent value="images" className="space-y-4">
+          <TabsContent value="images" className="space-y-4 ">
             <h3 className="text-sm font-semibold">Attach or Manage Images</h3>
             <GalleryPicker
               preselected={form.images?.map((img) => img.id) || []}

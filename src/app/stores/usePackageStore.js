@@ -1,5 +1,3 @@
-// /stores/usePackageStore.js
-"use client"; // 👈 VERY IMPORTANT!
 
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
@@ -37,7 +35,7 @@ const normalizePackage = (pkg) => ({
 });
 
 const usePackageStore = create(
-    persist(
+   
     devtools((set, get) => ({
         packages: [],
         guides: [],
@@ -112,7 +110,7 @@ const usePackageStore = create(
             set({ snackbar: { open: true, message, type } }),
         closeSnackbar: () =>
             set({ snackbar: { open: false, message: "", type: "info" } }),
-    })))
+    }))
 );
 
 export default usePackageStore;

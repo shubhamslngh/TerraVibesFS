@@ -20,7 +20,7 @@ export default function DateRangeSelector({ onChange }) {
   };
 
   return (
-    <div className="rounded-lg shadow-md p-4 bg-stone-300 ">
+    <div className="rounded-lg shadow-md p-4 bg-stone-100 dark:bg-black ">
       <DateRange
         editableDateInputs={true}
         onChange={handleSelect}

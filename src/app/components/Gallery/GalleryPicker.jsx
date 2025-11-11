@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Upload, Check } from "lucide-react";
+import { Upload, Check, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/services/api";
 import usePackageStore from "@/stores/usePackageStore";
@@ -66,7 +66,34 @@ export default function GalleryPicker({
     );
   };
 
-  // 🔹 Confirm selection and sync with store
+  // ✏️ Edit image
+  const handleEdit = (img) => {
+    const newTitle = prompt("Edit title:", img.title);
+    if (newTitle === null) return; // cancelled
+    const newBody = prompt("Edit body:", img.body || "");
+    const newSlug = prompt("Edit slug:", img.slug || "");
+    api
+      .patch(`content/${img.id}/`, {
+        title: newTitle,
+        body: newBody,
+        slug: newSlug,
+      })
+      .then(() => loadGallery())
+      .catch(() => alert("⚠️ Failed to update image"));
+  };
+
+  // 🗑️ Delete image
+  const handleDelete = async (id) => {
+    if (!confirm("Delete this image?")) return;
+    try {
+      await api.delete(`content/${id}/`);
+      setGallery((prev) => prev.filter((img) => img.id !== id));
+    } catch {
+      alert("⚠️ Failed to delete image");
+    }
+  };
+
+  // 🔹 Confirm selection and sync
   const handleConfirm = () => {
     const selectedImages = gallery
       .filter((img) => selectedIds.includes(img.id))
@@ -78,10 +105,10 @@ export default function GalleryPicker({
       }));
 
     if (onSelect) onSelect(selectedImages);
-    if (packageId) setPackageImages(packageId, selectedImages); // 🧠 link store update
+    if (packageId) setPackageImages(packageId, selectedImages);
   };
 
-  // 💅 UI same as before ...
+  // 💅 UI same layout
   return (
     <div className="space-y-3">
       {/* Upload Controls */}
@@ -116,7 +143,7 @@ export default function GalleryPicker({
             return (
               <div
                 key={img.id}
-                className={`relative border rounded-lg overflow-hidden cursor-pointer transition-all ${
+                className={`relative border rounded-lg overflow-hidden cursor-pointer transition-all group ${
                   selected
                     ? "ring-2 ring-orange-500 scale-[1.02]"
                     : "hover:ring-2 hover:ring-gray-300"
@@ -127,6 +154,30 @@ export default function GalleryPicker({
                   alt={img.title}
                   className="w-full h-24 object-cover"
                 />
+                {/* Overlay for actions */}
+                <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className="bg-white/80 hover:bg-orange-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEdit(img);
+                    }}>
+                    <Pencil size={14} className="text-orange-600" />
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className="bg-white/80 hover:bg-red-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(img.id);
+                    }}>
+                    <Trash2 size={14} className="text-red-600" />
+                  </Button>
+                </div>
+
                 {selected && (
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <Check className="text-white" size={22} />

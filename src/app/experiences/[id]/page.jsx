@@ -133,7 +133,7 @@ export default function PackageDetailsPage({ params }) {
       title: "🗓️ Plan Your Break",
       content: (
         <div>
-          <h2 className="text-md  font-semibold mb-2 text-stone-700 dark:text-stone-100">
+          <h2 className="text-md font-semibold mb-2 text-stone-700 dark:text-stone-100">
             How long do you want to disconnect?
           </h2>
           <DateRangeSelector onChange={handleDateChange} />
