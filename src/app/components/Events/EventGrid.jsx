@@ -9,7 +9,7 @@ export default function EventGrid({ packages = [], loading = false }) {
       loading={loading}
       CardComponent={EventCard}
       emptyMessage="No packages found."
-      loadingLottie="/travelBus.lottie"
+      loadingLottie="/TravelBus.lottie"
     />
   );
 }

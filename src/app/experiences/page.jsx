@@ -54,7 +54,7 @@ export default function HomePage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center mt-12">
             <DotLottieReact
-              src="/travelBus.lottie"
+              src="/TravelBus.lottie"
               autoplay
               loop
               style={{ width: 280, height: 280 }}
