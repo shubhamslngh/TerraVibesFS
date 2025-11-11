@@ -28,22 +28,21 @@ export default function EventCard({ item, scrollProgress = 0 }) {
   }
 
   // 🖼️ Safely build image paths
-  const imagePaths =
-    pkg?.images
-      ?.map((img) =>
-        img.media_file
-          ? img.media_file
-          : img.mediaFile
-          ? `${base}/${img.mediaFile?.replace(/^\/+/, "")}`
-          : null
-      )
-      ?.filter(Boolean) || [];
+const imagePaths =
+  pkg?.images
+    ?.map((img) => {
+      const src = img?.src || img?.mediaFile || img?.media_file;
+      if (!src) return null;
+      if (src.startsWith("http")) return src;
+      return `${base}/${src.replace(/^\/+/, "")}`;
+    })
+    ?.filter(Boolean) || [];
 
   const bgImage1 = imagePaths[0];
   const bgImage2 = imagePaths[1];
 
   return (
-    <Link href={`/packages/${pkg.id}`} className="block w-full">
+    <Link href={`/experiences/${pkg.id}`} className="block w-full">
       <div
         className="
           group relative p-2 text-center rounded-xl 

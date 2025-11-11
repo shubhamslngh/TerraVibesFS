@@ -1,24 +1,20 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import EventGrid from "@/components/Events/EventGrid";
-import { fetchPackages } from "@/lib/search";
 import { motion, useInView } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import usePackageStore from "@/stores/usePackageStore";
 
 export default function HomePage() {
-  const [packages, setPackages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { packages, loading, loadPackages } = usePackageStore();
 
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
 
   useEffect(() => {
-    fetchPackages({ isActive: true })
-      .then((pkgs) => setPackages(pkgs))
-      .catch((error) => console.error("Failed to fetch packages:", error))
-      .finally(() => setLoading(false));
-  }, []);
+      loadPackages({ isActive: true });
+  }, [loadPackages]);
 
   return (
     <main className="w-full justify-center bg-white dark:bg-gray-950 transition-colors duration-300">
@@ -58,7 +54,7 @@ export default function HomePage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center mt-12">
             <DotLottieReact
-              src="/travek.lottie" // 👈 Place your Lottie file in /public/travel.lottie
+              src="/travelBus.lottie"
               autoplay
               loop
               style={{ width: 280, height: 280 }}

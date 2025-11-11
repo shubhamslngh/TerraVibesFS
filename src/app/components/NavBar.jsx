@@ -81,6 +81,9 @@ export default function Navbar() {
           <Link href="/blogs" className="hover:text-red-500">
             Stories
           </Link>
+          <Link href="/generate" className="hover:text-red-500">
+            Create
+          </Link>
         </div>
 
         {/* Right Section */}
@@ -173,6 +176,9 @@ export default function Navbar() {
                   href="/experiences"
                   onClick={() => setMobileMenuOpen(false)}>
                   Experiences
+                </Link>
+                <Link href="/generate" onClick={() => setMobileMenuOpen(false)}>
+                  Create
                 </Link>
 
                 {session && (

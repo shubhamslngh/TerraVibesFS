@@ -27,7 +27,7 @@ export default function MediaFlowGallery({ items = [] }) {
 dark:from-teal-950 dark:to-transparent ">
       <div className="flex gap-12 w-max px-6">
         {items.map((item, index) => {
-          const src = `${mediaUrl}${item.mediaFile}`;
+          const src = `${mediaUrl}${item.src}`;
           const description = item.body || "Experience.";
           const title = item.title || "Journey";
           const layout = layouts[index];

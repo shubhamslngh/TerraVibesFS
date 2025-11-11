@@ -24,7 +24,7 @@ export default function BlogDetailPage() {
   return (
     <main className="max-w-3xl mx-auto py-16 px-6 text-gray-800 dark:text-gray-100">
       <motion.img
-        src={`${blog.media_file}`}
+        src={`${blog.src}`}
         alt={blog.title}
         className="w-full rounded-2xl mb-8 h-80 object-cover"
         initial={{ opacity: 0 }}

@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import BookingForm from "@/components/BookingForm";
-import MediaFlowGallery from "@/components/ui/MediaFlow";
+// import MediaFlowGallery from "@/components/ui/MediaFlow";
 import EventCard from "@/components/Events/EventCard";
 import { motion } from "framer-motion";
 import Loader from "@/components/ui/loader";
@@ -12,30 +12,30 @@ import { useScroll, useTransform } from "framer-motion";
 import { useMemo } from "react";
 
 export default function BookingPage({ params }) {
-   const resolvedParams = use(params);
-  const { id } = resolvedParams;  
+  const resolvedParams = use(params);
+  const { id } = resolvedParams;
   const searchParams = useSearchParams();
   const start = searchParams.get("start");
   const end = searchParams.get("end");
   const [startDate, setStartDate] = useState(start ? new Date(start) : null);
   const [endDate, setEndDate] = useState(end ? new Date(end) : null);
-const handleDateChange = ({ startDate: s, endDate: e }) => {
-  setStartDate(s);
-  setEndDate(e);
-  console.log("Updated in parent:", s, e);
-};
+  const handleDateChange = ({ startDate: s, endDate: e }) => {
+    setStartDate(s);
+    setEndDate(e);
+    console.log("Updated in parent:", s, e);
+  };
   const { scrollY } = useScroll();
   const scale = useTransform(scrollY, [0, 300], [1, 0.75]);
   const height = useTransform(scrollY, [0, 300], [500, 300]);
- const days = useMemo(() => {
-   const startObj =
-     typeof startDate === "string" ? new Date(startDate) : startDate;
-   const endObj = typeof endDate === "string" ? new Date(endDate) : endDate;
+  const days = useMemo(() => {
+    const startObj =
+      typeof startDate === "string" ? new Date(startDate) : startDate;
+    const endObj = typeof endDate === "string" ? new Date(endDate) : endDate;
 
-   if (!startObj || !endObj || isNaN(startObj) || isNaN(endObj)) return 1;
+    if (!startObj || !endObj || isNaN(startObj) || isNaN(endObj)) return 1;
 
-   return Math.max(1, Math.ceil((endObj - startObj) / (1000 * 60 * 60 * 24)));
- }, [startDate, endDate]);
+    return Math.max(1, Math.ceil((endObj - startObj) / (1000 * 60 * 60 * 24)));
+  }, [startDate, endDate]);
 
   const [pkg, setPkg] = useState(null);
 
@@ -55,7 +55,7 @@ const handleDateChange = ({ startDate: s, endDate: e }) => {
                   description
                   services
                   moods { name }
-                  images { mediaFile, body, title }
+                  images { src, body, title }
                 }
               }
             `,
@@ -80,8 +80,8 @@ const handleDateChange = ({ startDate: s, endDate: e }) => {
       <div className="w-full max-w-4xl mx-auto mb-10 rounded-xl overflow-hidden shadow-md">
         <img
           src={
-            pkg.images?.[0]?.mediaFile &&
-            `${process.env.NEXT_PUBLIC_API_URL}/media/${pkg.images[0].mediaFile}`
+            pkg.images?.[0]?.src &&
+            `${process.env.NEXT_PUBLIC_API_URL}/media/${pkg.images[0].src}`
           }
           alt={pkg.title}
           className="w-full h-64 object-cover"

@@ -2,19 +2,17 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { fetchPackages } from "@/lib/search";
+import usePackageStore from "@/stores/usePackageStore";
 import { getBlogs } from "@/services/api";
 import EmotionPage from "./components/emotions";
 import GuideSelector from "./components/GuideSelector";
-import Guides from "@/components/ui/GuidesCards";
 import HeroSection from "@/components/HeroSection";
 import BlogGrid from "@/components/Blogs/BlogGrid";
-
 
 function Section({ id, title, subtitle, children }) {
   return (
     <section id={id} className="relative w-full">
-      <div className="px-4 ">
+      <div className="px-4">
         <div className="max-w-[1280px] mx-auto">
           <div
             className="
@@ -54,11 +52,11 @@ const fadeUp = {
 };
 
 export default function HomePage() {
-  const [packages, setPackages] = useState([]);
+  const { packages, loadPackages, loading } = usePackageStore();
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const heroRef = useRef(null);
   const contentRef = useRef(null);
+
   const hasPackages = useMemo(() => (packages?.length ?? 0) > 0, [packages]);
 
   const handleScrollToContent = () => {
@@ -66,17 +64,11 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    // Fetch travel packages
-    fetchPackages({ isActive: true })
-      .then((pkgs) => setPackages(pkgs))
-      .catch(() => { })
-      .finally(() => setLoading(false));
-
-    // Fetch latest blogs
+    loadPackages(); // ✅ Global fetch
     getBlogs()
-      .then((res) => setBlogs(res.data.slice(0, 3))) // show latest 3
+      .then((res) => setBlogs(res.data.slice(0, 3)))
       .catch((err) => console.error("Error fetching blogs:", err));
-  }, []);
+  }, [loadPackages]);
 
   return (
     <div className="w-full">
@@ -125,7 +117,6 @@ export default function HomePage() {
           </motion.div>
         </Section>
 
-        {/* STORIES (Blogs) */}
         <Section
           id="stories"
           title="Stories"
@@ -140,28 +131,6 @@ export default function HomePage() {
             <BlogGrid blogs={blogs} loading={false} />
           </motion.div>
         </Section>
-
-
-        {/* PACKAGES
-        <Section
-          id="packages"
-          title="Featured Packages"
-          subtitle="Ready-to-book journeys aligned to your mood."
-        >
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.25 }}
-            variants={fadeUp}
-          >
-            <Guides packages={packages} loading={loading} />
-            {!loading && !hasPackages && (
-              <div className="mt-6 rounded-xl border border-black/5 dark:border-white/15 p-6 text-center text-sm text-neutral-600 dark:text-neutral-300">
-                Nothing to show yet. Try another mood or check back soon.
-              </div>
-            )}
-          </motion.div>
-        </Section> */}
       </div>
     </div>
   );

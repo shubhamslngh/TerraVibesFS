@@ -7,9 +7,9 @@ export default function BlogCard({ blog, item }) {
 
   return (
     <div className="flex flex-col bg-white dark:bg-neutral-900 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
-      {data.media_file && (
+      {data.src && (
         <img
-          src={data.media_file}
+          src={data.src}
           alt={data.title}
           className="w-full h-48 object-cover"
         />

@@ -3,6 +3,7 @@ import Navbar from "./components/NavBar";
 import { Cinzel, Monoton, Playfair_Display } from "next/font/google";
 import { Providers } from "./provider";
 import ThemeInitializer from "@/components/ThemeInitializer";
+import Snackbar from "./components/ui/Snackbar";
 
 const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
 const monoton = Monoton({ subsets: ["latin"], weight: ["400"], variable: "--font-monoton" });
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
             <header className="w-full">
               <Navbar />
             </header>
-
+            <Snackbar/>
             <main className="flex-grow w-full  max-w-screen-8xl mx-auto pt-20">
               {children}
             </main>

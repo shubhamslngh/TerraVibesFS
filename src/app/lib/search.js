@@ -1,7 +1,6 @@
 // lib/search.js
 
 const GRAPHQL_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/graphql/`;
-
 const PACKAGES_QUERY = `
   query GetPackages($mood: String, $maxPrice: Float, $isActive: Boolean) {
     packages(mood: $mood, maxPrice: $maxPrice, isActive: $isActive) {
@@ -12,15 +11,23 @@ const PACKAGES_QUERY = `
       services
       images {
         id
-        mediaFile
+        src
       }
       moods {
         id
         name
       }
+      guides {
+        id
+        name
+        bio
+        expertise
+        photo
+      }
     }
   }
 `;
+
 
 /**
  * Fetches event packages from the GraphQL API.
