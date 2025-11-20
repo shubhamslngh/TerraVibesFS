@@ -95,7 +95,7 @@ export default function GeneratePackageChat() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white via-orange-50 to-amber-100 dark:from-gray-900 dark:to-black py-10 px-4">
+    <main className="min-h-screen bg-gradient-to-b from-white via-green-100 to-amber-100 dark:via-slate-800 dark:from-black dark:to-black py-10 px-4">
       <div className="max-w-3xl mx-auto">
         <Card className="rounded-2xl shadow-xl backdrop-blur-md bg-white/80 dark:bg-gray-900/70 border border-black/5 dark:border-white/10 overflow-hidden">
           <CardHeader className="border-b border-gray-200 dark:border-gray-700">
@@ -113,12 +113,12 @@ export default function GeneratePackageChat() {
               <TabsList className="grid grid-cols-2 w-full h-full bg-gray-100 dark:bg-gray-800">
                 <TabsTrigger
                   value="chat"
-                  className="flex items-center justify-center gap-2 py-3 hover:bg-yellow-100 data-[state=active]:bg-orange-600 data-[state=active]:text-white rounded-none">
+                  className="flex items-center justify-center gap-2 py-3 hover:bg-slate-100 data-[state=active]:bg-orange-600 data-[state=active]:text-white rounded-none">
                   <MessageSquareText size={18} /> Chat Assistant
                 </TabsTrigger>
                 <TabsTrigger
                   value="packages"
-                  className="flex items-center justify-center gap-2 py-3 hover:bg-yellow-100 data-[state=active]:bg-orange-600 data-[state=active]:text-white rounded-none">
+                  className="flex items-center justify-center gap-2 py-3 hover:text-black hover:bg-slate-100 data-[state=active]:bg-orange-600 data-[state=active]:text-white rounded-none">
                   <Edit size={18} /> Manage Packages
                 </TabsTrigger>
               </TabsList>

@@ -135,7 +135,7 @@ export default function HorizontalScrollGrid({
       <div
         ref={scrollRef}
         className="
-          flex gap-4 overflow-x-auto scrollbar-none
+          flex gap-4 overflow-x-auto scrollbar-none no-visible-scrollbar
           px-4 py-6 snap-x snap-mandatory cursor-grab touch-pan-x
         ">
         {items.map((item, idx) => (

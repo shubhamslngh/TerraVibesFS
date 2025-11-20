@@ -26,8 +26,6 @@ export default function EventCard({ item, scrollProgress = 0 }) {
   } catch (e) {
     console.error("Failed to parse services:", e);
   }
-
-  // 🖼️ Safely build image paths
 const imagePaths =
   pkg?.images
     ?.map((img) => {
@@ -37,8 +35,8 @@ const imagePaths =
       return `${base}/${src.replace(/^\/+/, "")}`;
     })
     ?.filter(Boolean) || [];
-
-  const bgImage1 = imagePaths[0];
+const fallbackImage = "/defaults/holobg.jpg";
+ const bgImage1 = imagePaths[0] || fallbackImage;
   const bgImage2 = imagePaths[1];
 
   return (
